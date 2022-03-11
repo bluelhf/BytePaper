@@ -51,9 +51,9 @@ configurations {
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
-    extraLibs "org.byteskript:byteskript:1.0.20"
+    extraLibs "org.byteskript:byteskript:1.0.24"
 
-    paperweightDevelopmentBundle("io.papermc.paper:dev-bundle:${ver.major}.${ver.minor}.${ver.patch}-R${ver.revision}-${ver.tag}");
+    paperweightDevelopmentBundle("io.papermc.paper:dev-bundle:${ver.major}.${ver.minor}.${ver.patch}-R${ver.revision}-${ver.tag}")
 }
 
 test {
