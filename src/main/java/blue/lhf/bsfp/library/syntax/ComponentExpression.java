@@ -31,9 +31,9 @@ public class ComponentExpression extends SimpleExpression {
         WriteInstruction converter = (writer, visitor) -> {
             visitor.visitLdcInsn(org.objectweb.asm.Type.getType(String.class));
             visitor.visitMethodInsn(INVOKESTATIC,
-                    "org/byteskript/skript/runtime/internal/ExtractedSyntaxCalls",
+                    "org/byteskript/skript/runtime/Skript",
                     "convert",
-                    "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;",
+                    "(Ljava/lang/Object;Ljava/lang/Class;)Ljava/lang/Object;",
                     false);
         };
 
