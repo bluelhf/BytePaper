@@ -1,8 +1,8 @@
-package blue.lhf.bsfp.commands;
+package blue.lhf.bytepaper.commands;
 
-import blue.lhf.bsfp.BSFP;
-import blue.lhf.bsfp.util.Exceptions;
-import blue.lhf.bsfp.util.MayThrow;
+import blue.lhf.bytepaper.BytePaper;
+import blue.lhf.bytepaper.util.Exceptions;
+import blue.lhf.bytepaper.util.MayThrow;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
@@ -12,15 +12,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.function.UnaryOperator;
 
-import static blue.lhf.bsfp.util.Components.toMC;
+import static blue.lhf.bytepaper.util.Components.toMC;
 import static com.mojang.brigadier.arguments.StringArgumentType.getString;
 import static com.mojang.brigadier.arguments.StringArgumentType.greedyString;
 import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
 
-public class BSKCommand {
-    private BSKCommand() {
+public class BPCommand {
+    private BPCommand() {
     }
 
 
@@ -38,7 +38,7 @@ public class BSKCommand {
         };
     }
 
-    public static void register(CommandDispatcher<CommandSourceStack> dispatcher, BSFP host) {
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher, BytePaper host) {
         UnaryOperator<LiteralArgumentBuilder<CommandSourceStack>> tail = builder -> builder.then(
             literal("load").then(
                 argument("path", greedyString())
@@ -59,6 +59,6 @@ public class BSKCommand {
             )
         );
 
-        dispatcher.register(tail.apply(literal("bsk")));
+        dispatcher.register(tail.apply(literal("bp")));
     }
 }

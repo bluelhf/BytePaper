@@ -6,4 +6,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'BSFP'
+rootProject.name = 'BytePaper'

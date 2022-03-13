@@ -1,10 +1,10 @@
-package blue.lhf.bsfp;
+package blue.lhf.bytepaper;
 
-import blue.lhf.bsfp.commands.BSKCommand;
-import blue.lhf.bsfp.library.PaperBridgeSpec;
-import blue.lhf.bsfp.util.Debugging;
-import blue.lhf.bsfp.util.Exceptions;
-import blue.lhf.bsfp.util.MayThrow;
+import blue.lhf.bytepaper.commands.BPCommand;
+import blue.lhf.bytepaper.library.PaperBridgeSpec;
+import blue.lhf.bytepaper.util.Debugging;
+import blue.lhf.bytepaper.util.Exceptions;
+import blue.lhf.bytepaper.util.MayThrow;
 import mx.kenzie.jupiter.stream.Stream;
 import net.minecraft.server.MinecraftServer;
 import org.bukkit.Bukkit;
@@ -18,7 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 
-public final class BSFP extends JavaPlugin implements IScriptLoader {
+public final class BytePaper extends JavaPlugin implements IScriptLoader {
 
     private final Path scriptsFolder = getDataFolder().toPath().resolve("scripts");
     private final Path compiledFolder = getDataFolder().toPath().resolve("compiled_scripts");
@@ -58,7 +58,7 @@ public final class BSFP extends JavaPlugin implements IScriptLoader {
         }
 
         //noinspection deprecation
-        BSKCommand.register(MinecraftServer.getServer().getCommands().getDispatcher(), this);
+        BPCommand.register(MinecraftServer.getServer().getCommands().getDispatcher(), this);
         this.skript = new Skript(compiler);
 
         PaperBridgeSpec.INSTANCE.registerEvents(skript, this);

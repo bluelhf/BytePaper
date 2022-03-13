@@ -1,6 +1,6 @@
-package blue.lhf.bsfp;
+package blue.lhf.bytepaper;
 
-import blue.lhf.bsfp.util.MayThrow;
+import blue.lhf.bytepaper.util.MayThrow;
 import mx.kenzie.foundation.language.PostCompileClass;
 import org.byteskript.skript.error.ScriptCompileError;
 import org.byteskript.skript.error.ScriptLoadError;

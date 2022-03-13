@@ -1,4 +1,4 @@
-package blue.lhf.bsfp.util;
+package blue.lhf.bytepaper.util;
 
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.network.chat.Component;

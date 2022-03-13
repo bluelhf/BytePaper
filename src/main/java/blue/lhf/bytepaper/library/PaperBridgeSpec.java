@@ -1,11 +1,11 @@
-package blue.lhf.bsfp.library;
+package blue.lhf.bytepaper.library;
 
-import blue.lhf.bsfp.library.syntax.chat.ChatEvent;
-import blue.lhf.bsfp.library.syntax.chat.ComponentExpression;
-import blue.lhf.bsfp.library.syntax.ConsoleExpression;
-import blue.lhf.bsfp.library.syntax.chat.SendEffect;
-import blue.lhf.bsfp.util.Exceptions;
-import blue.lhf.bsfp.util.MayThrow;
+import blue.lhf.bytepaper.library.syntax.chat.ChatEvent;
+import blue.lhf.bytepaper.library.syntax.chat.ComponentExpression;
+import blue.lhf.bytepaper.library.syntax.ConsoleExpression;
+import blue.lhf.bytepaper.library.syntax.chat.SendEffect;
+import blue.lhf.bytepaper.util.Exceptions;
+import blue.lhf.bytepaper.util.MayThrow;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;

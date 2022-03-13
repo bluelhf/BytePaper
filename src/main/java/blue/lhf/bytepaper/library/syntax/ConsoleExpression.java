@@ -1,6 +1,6 @@
-package blue.lhf.bsfp.library.syntax;
+package blue.lhf.bytepaper.library.syntax;
 
-import blue.lhf.bsfp.library.PaperBridgeSpec;
+import blue.lhf.bytepaper.library.PaperBridgeSpec;
 import mx.kenzie.foundation.Type;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;

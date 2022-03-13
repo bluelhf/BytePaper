@@ -1,4 +1,4 @@
-package blue.lhf.bsfp.util;
+package blue.lhf.bytepaper.util;
 
 import java.io.OutputStream;
 import java.util.logging.Logger;

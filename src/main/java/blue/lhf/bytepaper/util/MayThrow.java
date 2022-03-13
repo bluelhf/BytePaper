@@ -1,4 +1,4 @@
-package blue.lhf.bsfp.util;
+package blue.lhf.bytepaper.util;
 
 public class MayThrow {
 

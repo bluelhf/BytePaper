@@ -1,6 +1,6 @@
-package blue.lhf.bsfp.library.syntax.chat;
+package blue.lhf.bytepaper.library.syntax.chat;
 
-import blue.lhf.bsfp.library.PaperBridgeSpec;
+import blue.lhf.bytepaper.library.PaperBridgeSpec;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.byteskript.skript.api.syntax.Effect;

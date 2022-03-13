@@ -1,4 +1,4 @@
-package blue.lhf.bsfp.library.syntax;
+package blue.lhf.bytepaper.library.syntax;
 
 import mx.kenzie.foundation.Type;
 import mx.kenzie.foundation.WriteInstruction;

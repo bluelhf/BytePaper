@@ -1,7 +1,7 @@
-package blue.lhf.bsfp.library.syntax.chat;
+package blue.lhf.bytepaper.library.syntax.chat;
 
-import blue.lhf.bsfp.library.PaperBridgeSpec;
-import blue.lhf.bsfp.library.syntax.SyntaxUtils;
+import blue.lhf.bytepaper.library.PaperBridgeSpec;
+import blue.lhf.bytepaper.library.syntax.SyntaxUtils;
 import mx.kenzie.foundation.Type;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
