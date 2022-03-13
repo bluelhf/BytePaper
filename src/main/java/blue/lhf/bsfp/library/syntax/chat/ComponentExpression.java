@@ -1,8 +1,8 @@
-package blue.lhf.bsfp.library.syntax;
+package blue.lhf.bsfp.library.syntax.chat;
 
 import blue.lhf.bsfp.library.PaperBridgeSpec;
+import blue.lhf.bsfp.library.syntax.SyntaxUtils;
 import mx.kenzie.foundation.Type;
-import mx.kenzie.foundation.WriteInstruction;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
@@ -12,7 +12,8 @@ import org.byteskript.skript.compiler.Context;
 import org.byteskript.skript.compiler.Pattern;
 import org.byteskript.skript.lang.element.StandardElements;
 
-import static mx.kenzie.foundation.WriteInstruction.*;
+import static mx.kenzie.foundation.WriteInstruction.invokeInterface;
+import static mx.kenzie.foundation.WriteInstruction.swap;
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;
 
 public class ComponentExpression extends SimpleExpression {
@@ -25,36 +26,34 @@ public class ComponentExpression extends SimpleExpression {
         return new Type(Component.class);
     }
 
+
     @Override
     public void compile(Context context, Pattern.Match match) {
         var builder = context.getMethod();
-        WriteInstruction converter = (writer, visitor) -> {
-            visitor.visitLdcInsn(org.objectweb.asm.Type.getType(String.class));
-            visitor.visitMethodInsn(INVOKESTATIC,
-                    "org/byteskript/skript/runtime/Skript",
-                    "convert",
-                    "(Ljava/lang/Object;Ljava/lang/Class;)Ljava/lang/Object;",
-                    false);
-        };
 
+        builder.writeCode(SyntaxUtils.convert(String.class));
         switch (match.matcher().group().split(" ")[0]) {
-            case "raw" -> writeCall(builder, findMethod(Component.class, "text", String.class), context);
+            case "raw" -> builder.writeCode((writer, visitor) ->
+                visitor.visitMethodInsn(
+                    INVOKESTATIC,
+                    "net/kyori/adventure/text/Component",
+                    "text",
+                    "(Ljava/lang/String;)Lnet/kyori/adventure/text/TextComponent;",
+                    true
+                ));
             case "mini" -> {
                 writeCall(builder, findMethod(MiniMessage.class, "miniMessage"), context);
                 builder.writeCode(swap());
-                builder.writeCode(converter);
                 builder.writeCode(invokeInterface(findMethod(MiniMessage.class, "deserialize", Object.class)));
             }
             case "legacy" -> {
                 writeCall(builder, findMethod(LegacyComponentSerializer.class, "legacyAmpersand"), context);
                 builder.writeCode(swap());
-                builder.writeCode(converter);
                 builder.writeCode(invokeInterface(findMethod(LegacyComponentSerializer.class, "deserialize", Object.class)));
             }
             case "json" -> {
                 writeCall(builder, findMethod(GsonComponentSerializer.class, "gson"), context);
                 builder.writeCode(swap());
-                builder.writeCode(converter);
                 builder.writeCode(invokeInterface(findMethod(GsonComponentSerializer.class, "deserialize", Object.class)));
             }
             default -> throw new AssertionError("invalid");

@@ -1,23 +1,31 @@
 package blue.lhf.bsfp.library;
 
-import blue.lhf.bsfp.library.syntax.ComponentExpression;
+import blue.lhf.bsfp.library.syntax.chat.ChatEvent;
+import blue.lhf.bsfp.library.syntax.chat.ComponentExpression;
 import blue.lhf.bsfp.library.syntax.ConsoleExpression;
-import blue.lhf.bsfp.library.syntax.SendEffect;
-import mx.kenzie.foundation.Type;
+import blue.lhf.bsfp.library.syntax.chat.SendEffect;
+import blue.lhf.bsfp.util.Exceptions;
+import blue.lhf.bsfp.util.MayThrow;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.ComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.ModifiableLibrary;
+import org.byteskript.skript.api.PropertyHandler;
 import org.byteskript.skript.compiler.CompileState;
+import org.byteskript.skript.lang.handler.StandardHandlers;
+import org.byteskript.skript.runtime.Skript;
 
 import java.util.UUID;
 
 public class PaperBridgeSpec extends ModifiableLibrary {
-    private static final PaperBridgeSpec INSTANCE = new PaperBridgeSpec();
+    public static final PaperBridgeSpec INSTANCE = new PaperBridgeSpec();
     public static final Library LIBRARY = INSTANCE;
 
     public PaperBridgeSpec() {
@@ -27,8 +35,23 @@ public class PaperBridgeSpec extends ModifiableLibrary {
         registerConverter(UUID.class, OfflinePlayer.class, Bukkit::getOfflinePlayer);
         registerConverter(OfflinePlayer.class, Player.class, OfflinePlayer::getPlayer);
         registerConverter(String.class, Player.class, Bukkit::getPlayerExact);
+        registerConverter(Player.class, String.class, Player::getName);
 
         registerSyntax(CompileState.STATEMENT, new ComponentExpression(), new ConsoleExpression());
+
+        Exceptions.trying(Bukkit.getConsoleSender(), "registering properties",
+                (MayThrow.Runnable) () -> registerProperty(new PropertyHandler(StandardHandlers.GET, Player.class.getMethod("getName"), "name")));
+
+        registerEvents(new ChatEvent());
         registerSyntax(CompileState.CODE_BODY, new SendEffect());
+    }
+
+    public void registerEvents(Skript skript, Plugin host) {
+        Bukkit.getPluginManager().registerEvents(new Listener() {
+            @EventHandler
+            public void onChat(AsyncChatEvent event) {
+                skript.runEvent(new ChatEvent.Data(event));
+            }
+        }, host);
     }
 }

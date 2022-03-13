@@ -1,4 +1,4 @@
-package blue.lhf.bsfp.library.syntax;
+package blue.lhf.bsfp.library.syntax.chat;
 
 import blue.lhf.bsfp.library.PaperBridgeSpec;
 import net.kyori.adventure.audience.Audience;
@@ -15,11 +15,6 @@ import static mx.kenzie.foundation.WriteInstruction.swap;
 public class SendEffect extends Effect {
     public SendEffect() {
         super(PaperBridgeSpec.LIBRARY, StandardElements.EFFECT, "send [message] %Component% to %Audience%");
-    }
-
-    @Override
-    public boolean requiresMainThread() {
-        return true;
     }
 
     @Override
