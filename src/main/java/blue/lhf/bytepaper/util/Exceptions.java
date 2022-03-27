@@ -28,20 +28,20 @@ public class Exceptions {
             var stackTrace = sw.toString().replace("\t", "  ").replace("\r", "");
             stackTrace = stackTrace.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -/]*[@-~]", "");
             if (audience instanceof Player player) {
-                player.sendMessage(MiniMessage.builder().strict(true).build().deserialize("""
-                        <hover:show_text:'<gradient:#33080c:#a62832>%s</gradient>'>
-                        <gradient:#a62832:#33080c>An exception occurred while %s:
+                player.sendMessage(UI.miniMessage().deserialize("""
+                        <hover:show_text:'<error>%s</error>'>
+                        <error>An exception occurred while %s:
                             %s!
-                        </gradient>
-                        <gradient:#736b6b:#332d2d>Hover to see details.</gradient>
-                        </hover>""".formatted(miniMessage().escapeTags(stackTrace).replace("\n", "<br>").replace("'", "''"),
+                        </error>
+                        <secondary>Hover to see details.</secondary>
+                        </hover>""".formatted(UI.miniMessage().escapeTags(stackTrace).replace("\n", "<br>").replace("'", "''"),
                         task, miniMessage().escapeTags(t.getLocalizedMessage()).replace("'", "''"))));
             } else {
-                audience.sendMessage(miniMessage().deserialize("""
-                        <gradient:#a62832:#33080c>An exception occurred while %s!
+                audience.sendMessage(UI.miniMessage().deserialize("""
+                        <error>An exception occurred while %s!
                                                 
                         %s
-                        </gradient>""".formatted(task, stackTrace)));
+                        </error>""".formatted(task, stackTrace)));
             }
 
             return false;

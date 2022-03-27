@@ -2,6 +2,7 @@ package blue.lhf.bytepaper.library.syntax.chat;
 
 import blue.lhf.bytepaper.library.PaperBridgeSpec;
 import blue.lhf.bytepaper.library.syntax.SyntaxUtils;
+import blue.lhf.bytepaper.util.UI;
 import mx.kenzie.foundation.Type;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -18,7 +19,7 @@ import static org.objectweb.asm.Opcodes.INVOKESTATIC;
 
 public class ComponentExpression extends SimpleExpression {
     public ComponentExpression() {
-        super(PaperBridgeSpec.LIBRARY, StandardElements.EXPRESSION, "(raw|mini|legacy|json) [component] [from] %String%");
+        super(PaperBridgeSpec.LIBRARY, StandardElements.EXPRESSION, "(raw|mini|legacy|json) [component] [from] %Object%");
     }
 
     @Override
@@ -26,11 +27,9 @@ public class ComponentExpression extends SimpleExpression {
         return new Type(Component.class);
     }
 
-
     @Override
     public void compile(Context context, Pattern.Match match) {
         var builder = context.getMethod();
-
         builder.writeCode(SyntaxUtils.convert(String.class));
         switch (match.matcher().group().split(" ")[0]) {
             case "raw" -> builder.writeCode((writer, visitor) ->
@@ -42,7 +41,7 @@ public class ComponentExpression extends SimpleExpression {
                     true
                 ));
             case "mini" -> {
-                writeCall(builder, findMethod(MiniMessage.class, "miniMessage"), context);
+                writeCall(builder, findMethod(UI.class, "miniMessage"), context);
                 builder.writeCode(swap());
                 builder.writeCode(invokeInterface(findMethod(MiniMessage.class, "deserialize", Object.class)));
             }

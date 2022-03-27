@@ -23,6 +23,6 @@ public class SyntaxUtils {
     }
 
     public static WriteInstruction convert(Class<?> classy) {
-        return convert(Type.of(classy)[0]);
+        return convert(new Type(classy));
     }
 }
