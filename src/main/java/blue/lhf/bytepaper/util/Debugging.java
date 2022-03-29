@@ -1,6 +1,7 @@
 package blue.lhf.bytepaper.util;
 
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public enum Debugging {
@@ -51,7 +52,7 @@ public enum Debugging {
 
         @Override
         public void flush() {
-            logger.info(buffer::toString);
+            Arrays.stream(buffer.toString().split("\n")).forEachOrdered(logger::info);
             buffer.setLength(0);
         }
     }

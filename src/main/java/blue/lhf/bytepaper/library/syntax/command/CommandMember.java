@@ -1,18 +1,13 @@
-package blue.lhf.bytepaper.library.syntax.commands;
+package blue.lhf.bytepaper.library.syntax.command;
 
 import blue.lhf.bytepaper.library.BytePaperFlag;
-import blue.lhf.bytepaper.library.PaperBridgeSpec;
-import blue.lhf.bytepaper.library.annotations.CommandData;
 import mx.kenzie.foundation.Type;
-import mx.kenzie.foundation.WriteInstruction;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.*;
+import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.syntax.TriggerHolder;
-import org.byteskript.skript.compiler.CommonTypes;
-import org.byteskript.skript.compiler.Context;
-import org.byteskript.skript.compiler.SkriptLangSpec;
+import org.byteskript.skript.compiler.*;
 import org.byteskript.skript.compiler.structure.SectionMeta;
+import org.byteskript.skript.error.*;
 import org.byteskript.skript.lang.element.StandardElements;
 import org.objectweb.asm.Opcodes;
 
@@ -26,21 +21,18 @@ import static org.byteskript.skript.compiler.Pattern.Match;
 public class CommandMember extends TriggerHolder {
 
     private static final Pattern COMMAND_PATTERN = Pattern.compile("^command /?(?<name>" + SkriptLangSpec.IDENTIFIER + ")");
+    private final CommandRegistrar registrar;
     //private static final Pattern ARGUMENT_PATTERN = Pattern.compile("\\s*(?:(?<typed><(?:(?<type>.+?)=)?(?<name>.+?)(?:: ?(?<def>.+?))?>)|(?<optional>\\[.+?])|(?<literal>[^<\\[]+))");
 
-    public CommandMember() {
-        super(PaperBridgeSpec.LIBRARY, StandardElements.MEMBER, "command");
+    public CommandMember(Library library, CommandRegistrar registrar) {
+        super(library, StandardElements.MEMBER, "command");
+        this.registrar = registrar;
     }
 
     @Override
     public Match match(String thing, Context context) {
-        if (thing.length() < 9) return null;
-        if (!thing.startsWith("command ")) return null;
         final Matcher matcher = COMMAND_PATTERN.matcher(thing);
-        if (!matcher.find() || matcher.group("name") == null)
-            return null;
-
-        return new Match(matcher);
+        return matcher.find() ? new Match(matcher) : null;
     }
 
     @Override
@@ -74,7 +66,12 @@ public class CommandMember extends TriggerHolder {
                 returnSmall()
             ).finish();
 
-        PaperBridgeSpec.INSTANCE.registerCommand(match.matcher().group("name"), Type.of(path));
+        try {
+            registrar.accept(name, Type.of(path));
+        } catch (DuplicateCommandException e) {
+            throw new ScriptCompileError(context.lineNumber(),
+                    "The command /" + name + " could not be registered, because another command with that name already exists.", e);
+        }
     }
 
     @Override

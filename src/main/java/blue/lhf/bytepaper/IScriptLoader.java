@@ -2,22 +2,14 @@ package blue.lhf.bytepaper;
 
 import blue.lhf.bytepaper.util.MayThrow;
 import mx.kenzie.foundation.language.PostCompileClass;
-import org.byteskript.skript.error.ScriptCompileError;
-import org.byteskript.skript.error.ScriptLoadError;
-import org.byteskript.skript.error.ScriptParseError;
-import org.byteskript.skript.runtime.Script;
-import org.byteskript.skript.runtime.Skript;
+import org.byteskript.skript.error.*;
+import org.byteskript.skript.runtime.*;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 import static java.nio.file.StandardOpenOption.CREATE;
 import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;

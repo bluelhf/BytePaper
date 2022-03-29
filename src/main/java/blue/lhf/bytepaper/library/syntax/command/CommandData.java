@@ -1,4 +1,4 @@
-package blue.lhf.bytepaper.library.annotations;
+package blue.lhf.bytepaper.library.syntax.command;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

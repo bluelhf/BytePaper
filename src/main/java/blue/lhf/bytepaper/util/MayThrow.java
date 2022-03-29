@@ -15,12 +15,12 @@ public class MayThrow {
         default T get() {
             try {
                 return get0();
-            } catch (Exception t) {
+            } catch (Throwable t) {
                 throw new Threw(t);
             }
         }
 
-        T get0() throws Exception;
+        T get0() throws Throwable;
 
         static <T> MayThrow.Supplier<T> throwing(java.util.function.Supplier<T> supplier) {
             return supplier::get;
@@ -33,12 +33,12 @@ public class MayThrow {
         default void run() {
             try {
                 run0();
-            } catch (Exception t) {
+            } catch (Throwable t) {
                 throw new Threw(t);
             }
         }
 
-        void run0() throws Exception;
+        void run0() throws Throwable;
         static MayThrow.Runnable throwing(java.lang.Runnable runnable) {
             return runnable::run;
         }

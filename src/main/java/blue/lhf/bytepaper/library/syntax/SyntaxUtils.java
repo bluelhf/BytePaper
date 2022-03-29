@@ -1,7 +1,6 @@
 package blue.lhf.bytepaper.library.syntax;
 
-import mx.kenzie.foundation.Type;
-import mx.kenzie.foundation.WriteInstruction;
+import mx.kenzie.foundation.*;
 import org.objectweb.asm.Opcodes;
 
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;

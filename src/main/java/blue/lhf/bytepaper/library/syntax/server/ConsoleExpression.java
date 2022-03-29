@@ -1,17 +1,17 @@
-package blue.lhf.bytepaper.library.syntax;
+package blue.lhf.bytepaper.library.syntax.server;
 
 import blue.lhf.bytepaper.library.PaperBridgeSpec;
 import mx.kenzie.foundation.Type;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
+import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.syntax.SimpleExpression;
-import org.byteskript.skript.compiler.Context;
-import org.byteskript.skript.compiler.Pattern;
+import org.byteskript.skript.compiler.*;
 import org.byteskript.skript.lang.element.StandardElements;
 
 public class ConsoleExpression extends SimpleExpression {
-    public ConsoleExpression() {
-        super(PaperBridgeSpec.LIBRARY, StandardElements.EXPRESSION, "[the] [server] console");
+    public ConsoleExpression(Library library) {
+        super(library, StandardElements.EXPRESSION, "[the] [server] console");
     }
 
     @Override

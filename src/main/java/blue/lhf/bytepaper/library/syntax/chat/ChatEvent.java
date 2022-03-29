@@ -5,13 +5,13 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
-import org.byteskript.skript.api.Event;
+import org.byteskript.skript.api.*;
 import org.byteskript.skript.api.note.EventValue;
 import org.byteskript.skript.api.syntax.EventHolder;
 
 public class ChatEvent extends EventHolder {
-    public ChatEvent() {
-        super(PaperBridgeSpec.LIBRARY, "on [player] (chat|message)");
+    public ChatEvent(Library library) {
+        super(library, "on [player] (chat|message)");
     }
 
     @Override

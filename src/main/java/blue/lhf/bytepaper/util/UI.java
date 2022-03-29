@@ -7,7 +7,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.network.chat.Component;
 
-import java.awt.*;
+import java.awt.Color;
 
 import static blue.lhf.bytepaper.util.UI.Colour.wrap;
 import static net.kyori.adventure.text.Component.text;
