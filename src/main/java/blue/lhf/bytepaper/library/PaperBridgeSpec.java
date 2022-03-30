@@ -53,12 +53,6 @@ public class PaperBridgeSpec extends ModifiableLibrary {
         hookEvents();
     }
 
-    public void workaroundSkriptStupiding(Skript skript) {
-        for (var entry : converters.entrySet()) {
-            skript.registerConverter((Class) entry.getKey().from(), (Class) entry.getKey().to(), entry.getValue());
-        }
-    }
-
     protected void hookCommands() {
         registerSyntax(CompileState.ROOT, new CommandMember(this, new CommandRegistrar(host.getLogger(), skript)));
     }

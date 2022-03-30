@@ -58,9 +58,6 @@ public final class BytePaper extends JavaPlugin implements IScriptLoader {
         this.spec = new PaperBridgeSpec(skript, this);
         spec.registerAll();
         skript.registerLibrary(spec);
-
-        // bruh
-        spec.workaroundSkriptStupiding(skript);
     }
 
     public void unregister() {
