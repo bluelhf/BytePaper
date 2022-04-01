@@ -53,6 +53,7 @@ public class BPCommand {
             )
         );
 
+        dispatcher.getRoot().removeCommand("bp");
         dispatcher.register(tail.apply(literal("bp")));
     }
 }
