@@ -19,7 +19,7 @@ repositories {
 
 // ============ change these here ============ //
 group = 'blue.lhf'
-version = '0.1.1'
+version = '0.1.21'
 
 def author = 'bluelhf'
 def javaVersion = 17
