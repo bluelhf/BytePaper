@@ -18,6 +18,8 @@ import static java.util.Comparator.comparing;
 public interface IScriptLoader {
     Skript getSkript();
 
+    CommandRegistrar getRegistrar();
+
     default Collection<Script> loadScript(Path path) throws IOException {
         return loadScript(path, null);
     }

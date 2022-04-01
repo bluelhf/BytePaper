@@ -22,10 +22,12 @@ import java.util.*;
 public class PaperBridgeSpec extends ModifiableLibrary {
     private final Skript skript;
     private final Plugin host;
+    private final CommandRegistrar registrar;
 
-    public PaperBridgeSpec(Skript skript, Plugin host) {
+    public PaperBridgeSpec(Skript skript, Plugin host, CommandRegistrar registrar) {
         super("Paper");
         this.skript = skript;
+        this.registrar = registrar;
         this.host = host;
     }
 
@@ -54,7 +56,7 @@ public class PaperBridgeSpec extends ModifiableLibrary {
     }
 
     protected void hookCommands() {
-        registerSyntax(CompileState.ROOT, new CommandMember(this, new CommandRegistrar(host.getLogger(), skript)));
+        registerSyntax(CompileState.ROOT, new CommandMember(this, registrar));
     }
 
     protected void hookEvents() {

@@ -2,6 +2,7 @@ package blue.lhf.bytepaper;
 
 import blue.lhf.bytepaper.commands.BPCommand;
 import blue.lhf.bytepaper.library.PaperBridgeSpec;
+import blue.lhf.bytepaper.library.syntax.command.CommandRegistrar;
 import blue.lhf.bytepaper.util.*;
 import mx.kenzie.jupiter.stream.Stream;
 import net.minecraft.server.MinecraftServer;
@@ -19,6 +20,7 @@ public final class BytePaper extends JavaPlugin implements IScriptLoader {
     private final Path compiledFolder = getDataFolder().toPath().resolve("compiled_scripts");
     private PaperBridgeSpec spec;
     private Skript skript;
+    private CommandRegistrar registrar;
 
     @Override
     public void onEnable() {
@@ -33,6 +35,11 @@ public final class BytePaper extends JavaPlugin implements IScriptLoader {
 
     public Skript getSkript() {
         return skript;
+    }
+
+    @Override
+    public CommandRegistrar getRegistrar() {
+        return registrar;
     }
 
     @Override
@@ -54,8 +61,10 @@ public final class BytePaper extends JavaPlugin implements IScriptLoader {
 
         //noinspection deprecation
         BPCommand.register(MinecraftServer.getServer().getCommands().getDispatcher(), this);
+
         this.skript = new Skript(compiler);
-        this.spec = new PaperBridgeSpec(skript, this);
+        this.registrar = new CommandRegistrar(getLogger(), skript);
+        this.spec = new PaperBridgeSpec(skript, this, registrar);
         spec.registerAll();
         skript.registerLibrary(spec);
     }

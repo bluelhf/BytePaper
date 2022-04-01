@@ -9,10 +9,12 @@ import org.byteskript.skript.compiler.*;
 import org.byteskript.skript.compiler.structure.SectionMeta;
 import org.byteskript.skript.error.*;
 import org.byteskript.skript.lang.element.StandardElements;
+import org.byteskript.skript.runtime.data.SourceData;
 import org.objectweb.asm.Opcodes;
 
-import java.util.regex.Matcher;
+import java.time.Instant;
 import java.util.regex.Pattern;
+import java.util.regex.*;
 
 import static mx.kenzie.foundation.WriteInstruction.*;
 import static org.byteskript.skript.compiler.Pattern.Match;
@@ -42,6 +44,17 @@ public class CommandMember extends TriggerHolder {
     }
 
     @Override
+    public void preCompile(Context context, Match match) throws Throwable {
+        String name = match.matcher().group("name");
+        if (registrar.exists(name)) {
+            throw new ScriptParseError(context.lineNumber(),
+                "The command /" + name + " could not be registered, because another command with that name already exists");
+        }
+
+        super.preCompile(context, match);
+    }
+
+    @Override
     public void compile(Context context, Match match) {
         super.compile(context, match);
         String name = match.matcher().group("name");
@@ -52,7 +65,13 @@ public class CommandMember extends TriggerHolder {
             .addInterfaces(CommandExecutor.class)
             .addMethod("onCommand")
             .addAnnotation(Override.class).finish()
-            .addAnnotation(CommandData.class).setVisible(true).finish()
+            .addAnnotation(CommandData.class).addValue("label", name).setVisible(true).finish()
+            .addAnnotation(SourceData.class).setVisible(true)
+            .addValue("name", this.name())
+            .addValue("type", "command")
+            .addValue("line", context.lineNumber())
+            .addValue("compiled", Instant.now().getEpochSecond())
+            .finish()
             .setModifiers(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC)
             .setReturnType(boolean.class)
             .addParameter(CommandSender.class, Command.class, String.class, String[].class)
@@ -67,10 +86,9 @@ public class CommandMember extends TriggerHolder {
             ).finish();
 
         try {
-            registrar.accept(name, Type.of(path));
+            registrar.register(name, Type.of(path));
         } catch (DuplicateCommandException e) {
-            throw new ScriptCompileError(context.lineNumber(),
-                    "The command /" + name + " could not be registered, because another command with that name already exists.", e);
+            throw new ScriptCompileError(context.lineNumber(), e);
         }
     }
 

@@ -12,6 +12,7 @@ import java.lang.reflect.Method;
 import java.util.logging.*;
 
 public class CommandRegistrar {
+    private static final String FALLBACK_PREFIX = "bytepaper";
 
     private final Skript host;
     private final Logger logger;
@@ -22,7 +23,7 @@ public class CommandRegistrar {
         this.host = host;
     }
 
-    public void accept(String label, Type executor) throws DuplicateCommandException {
+    public void register(String label, Type executor) throws DuplicateCommandException {
 
         // This class exists solely to provide access to the Command constructor...
         abstract class Subcommand extends Command {
@@ -35,7 +36,7 @@ public class CommandRegistrar {
          * The class must be loaded when the command is executed — the registrar
          * is called during compilation, which means the class is inaccessible at this point.
          * */
-        boolean success = Bukkit.getCommandMap().register(label, "bytepaper", new Subcommand(label) {
+        boolean success = Bukkit.getCommandMap().register(label, FALLBACK_PREFIX, new Subcommand(label) {
             @Override
             public boolean execute(@NotNull CommandSender sender,
                                    @NotNull String commandLabel,
@@ -75,5 +76,16 @@ public class CommandRegistrar {
         }
 
         commandUpdater.run();
+    }
+
+    public boolean exists(String name) {
+        return Bukkit.getCommandMap().getCommand("%s:%s".formatted(FALLBACK_PREFIX, name)) != null;
+    }
+
+    public void unregister(String name) {
+        Bukkit.getCommandMap().getKnownCommands().remove(name);
+        Bukkit.getCommandMap().getKnownCommands().remove("%s:%s".formatted(FALLBACK_PREFIX, name));
+        Exceptions.trying(logger, Level.WARNING, "sending command unregistration update",
+            (MayThrow.Runnable) this::updateCommands);
     }
 }
