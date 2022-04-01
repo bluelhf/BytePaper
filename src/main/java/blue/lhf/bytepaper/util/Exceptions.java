@@ -58,13 +58,13 @@ public class Exceptions {
                     .replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -/]*[@-~]", "");
             if (audience instanceof Player player) {
                 player.sendMessage(UI.miniMessage().deserialize("""
-                        <hover:show_text:'<error>%s</error>'>
-                        <error>An exception occurred while %s:
-                            %s!
-                        </error>
-                        <secondary>Hover to see details.</secondary>
-                        </hover>""".formatted(UI.miniMessage().escapeTags(stackTrace).replace("\n", "<br>").replace("'", "''"),
-                        task, miniMessage().escapeTags(exc.getLocalizedMessage()).replace("'", "''"))));
+                    <hover:show_text:'<error>%s</error>'>
+                    <error>An exception occurred while %s:
+                        %s!
+                    </error>
+                    <secondary>Hover to see details.</secondary>
+                    </hover>""".formatted(UI.miniMessage().escapeTags(stackTrace).replace("\n", "<br>").replace("'", "''"),
+                    task, miniMessage().escapeTags(curr.getLocalizedMessage()).replace("'", "''"))));
             } else {
                 audience.sendMessage(UI.miniMessage().deserialize("""
                         <error>An exception occurred while %s!
