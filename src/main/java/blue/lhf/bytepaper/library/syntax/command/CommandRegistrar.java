@@ -42,26 +42,25 @@ public class CommandRegistrar {
                                    @NotNull String commandLabel,
                                    @NotNull String[] args) {
                 return Exceptions.trying(Bukkit.getConsoleSender(), "running a BytePaper command",
-                        (MayThrow.Runnable) () -> {
-                            Class<?> classy = host.getLoader().loadClass(executor.getTypeName());
-                            Method target = null;
-                            for (Method m : classy.getDeclaredMethods()) {
-                                if (m.getAnnotation(CommandData.class) == null) continue;
-                                target = m;
-                            }
+                    (MayThrow.Runnable) () -> {
+                        Class<?> classy = host.getLoader().loadClass(executor.getTypeName());
+                        Method target = null;
+                        for (Method m : classy.getDeclaredMethods()) {
+                            if (m.getAnnotation(CommandData.class) == null) continue;
+                            target = m;
+                        }
 
-                            assert target != null : "Tried to execute an unloaded command";
-                            target.invoke(null, sender, this, commandLabel, args);
-                        });
+                        assert target != null : "Tried to execute an unloaded command";
+                        target.invoke(null, sender, this, commandLabel, args);
+                    });
             }
         });
 
         if (!success)
             throw new DuplicateCommandException("A command by that name already exists!");
 
-        Exceptions.trying(logger, Level.WARNING, "sending command updates on script load",
-                (MayThrow.Runnable) this::updateCommands);
-
+        Exceptions.trying(logger, Level.WARNING, "sending command registration update",
+            (MayThrow.Runnable) this::updateCommands);
     }
 
     protected void updateCommands() throws Throwable {
