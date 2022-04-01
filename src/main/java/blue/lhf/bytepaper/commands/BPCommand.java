@@ -6,6 +6,7 @@ import com.mojang.brigadier.*;
 import com.mojang.brigadier.builder.*;
 import com.mojang.brigadier.suggestion.*;
 import net.minecraft.commands.*;
+import org.byteskript.skript.runtime.*;
 
 import java.nio.file.*;
 import java.util.function.*;
@@ -33,6 +34,15 @@ public class BPCommand {
         };
     }
 
+    protected static SuggestionProvider<CommandSourceStack> suggestLoadedScripts(IScriptLoader loader) {
+        return (context, builder) -> {
+            for (Script script : loader.getSkript().getScripts()) {
+                builder.suggest(script.getPath());
+            }
+            return builder.buildFuture();
+        };
+    }
+
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, BytePaper host) {
         UnaryOperator<LiteralArgumentBuilder<CommandSourceStack>> tail = builder -> builder.then(
             literal("load").then(
@@ -46,6 +56,32 @@ public class BPCommand {
                                     host.getCompiledFolder()
                                 ).join())) {
                             context.getSource().sendSuccess(toMC(UI.miniMessage().deserialize("<info>Successfully loaded the script!</info>")), false);
+                            return 1;
+                        }
+                        return 0;
+                    })
+            )
+        ).then(
+            literal("unload").then(
+                argument("path", greedyString())
+                    .suggests(suggestLoadedScripts(host))
+                    .executes(context -> {
+                        String targetPath = getString(context, "path");
+                        Script target = null;
+                        for (Script script : host.getSkript().getScripts()) {
+                            if (script.getPath().equals(targetPath))
+                                target = script;
+                        }
+
+                        if (target == null) {
+                            context.getSource().sendFailure(toMC(UI.miniMessage().deserialize("<error>A script with that path isn't loaded!</error>")));
+                            return 0;
+                        }
+
+                        Script finalTarget = target;
+                        if (Exceptions.trying(context.getSource().getBukkitSender(), "unloading the script",
+                            (MayThrow.Runnable) () -> host.unloadScript(finalTarget))) {
+                            context.getSource().sendSuccess(toMC(UI.miniMessage().deserialize("<info>Successfully unloaded the script!</info>")), false);
                             return 1;
                         }
                         return 0;

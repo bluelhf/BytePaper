@@ -1,9 +1,11 @@
 package blue.lhf.bytepaper;
 
+import blue.lhf.bytepaper.library.syntax.command.*;
 import blue.lhf.bytepaper.util.MayThrow;
 import mx.kenzie.foundation.language.PostCompileClass;
 import org.byteskript.skript.error.*;
 import org.byteskript.skript.runtime.*;
+import org.byteskript.skript.runtime.data.Structure;
 
 import java.io.*;
 import java.nio.file.*;
@@ -11,10 +13,12 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.*;
 
-import static java.nio.file.StandardOpenOption.CREATE;
-import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
+import static java.nio.file.StandardOpenOption.*;
 import static java.util.Comparator.comparing;
 
+/**
+ * Provides an interface for BytePaper load/unload mechanisms
+ */
 public interface IScriptLoader {
     Skript getSkript();
 
@@ -22,6 +26,16 @@ public interface IScriptLoader {
 
     default Collection<Script> loadScript(Path path) throws IOException {
         return loadScript(path, null);
+    }
+
+    default void unloadScript(Script script) {
+        for (Structure structure : script.getMembers()) {
+            CommandData ann = structure.element().getAnnotation(CommandData.class);
+            if (ann == null) continue;
+            getRegistrar().unregister(ann.label());
+        }
+
+        getSkript().unloadScript(script);
     }
 
     default Collection<Script> loadScript(Path path, Path outputDir) throws IOException {
@@ -92,10 +106,6 @@ public interface IScriptLoader {
         return scripts;
     }
 
-    default <T> CompletableFuture<T> async(Supplier<T> supplier) {
-        return CompletableFuture.supplyAsync(supplier, getSkript().getExecutor());
-    }
-
     default CompletableFuture<Collection<Script>> loadScriptAsync(Path path) {
         return loadScriptAsync(path, null);
     }
@@ -110,5 +120,9 @@ public interface IScriptLoader {
 
     default CompletableFuture<Collection<Script>> loadScriptTreeAsync(Path path, Path outputDir) {
         return async((MayThrow.Supplier<Collection<Script>>) () -> loadScriptTree(path, outputDir));
+    }
+
+    default <T> CompletableFuture<T> async(Supplier<T> supplier) {
+        return CompletableFuture.supplyAsync(supplier, getSkript().getExecutor());
     }
 }
