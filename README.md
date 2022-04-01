@@ -1,5 +1,5 @@
 # BytePaper
-BytePaper is a [ByteSkript](https://docs.byteskript.org) library and [Paper](https://papermc.io) plugin that bridges the gap between the Minecraft server and the ByteSkript language. It allows you to compile and run ByteSkript scripts (.bsk) that interact with your Paper server, all from in-game commands.
+BytePaper is a [ByteSkript](https://docs.byteskript.org "Scott, M. (2021). ByteSkript [Computer software]") library and [Paper](https://papermc.io) plugin that bridges the gap between the Minecraft server and the ByteSkript language. It allows you to compile and run ByteSkript scripts (.bsk) that interact with your Paper server, all from in-game commands.
 
 ### We're still improving!
 ByteSkript is a fairly young project, and BytePaper even younger than that. As such, many [Skript](https://skriptlang.org) syntaxes may not be available in BytePaper. If there's one you'd like to see, leave a [feature request](https://github.com/bluelhf/BytePaper/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=) and we'll get to work adding it ASAP!
