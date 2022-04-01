@@ -2,16 +2,16 @@ package blue.lhf.bytepaper.commands;
 
 import blue.lhf.bytepaper.*;
 import blue.lhf.bytepaper.util.*;
-import com.mojang.brigadier.*;
-import com.mojang.brigadier.builder.*;
-import com.mojang.brigadier.suggestion.*;
-import net.minecraft.commands.*;
-import org.byteskript.skript.runtime.*;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.suggestion.SuggestionProvider;
+import net.minecraft.commands.CommandSourceStack;
+import org.byteskript.skript.runtime.Script;
 
 import java.nio.file.*;
-import java.util.function.*;
+import java.util.function.UnaryOperator;
 
-import static blue.lhf.bytepaper.util.UI.*;
+import static blue.lhf.bytepaper.util.UI.toMC;
 import static com.mojang.brigadier.arguments.StringArgumentType.*;
 import static net.minecraft.commands.Commands.*;
 
@@ -47,13 +47,13 @@ public class BPCommand {
         UnaryOperator<LiteralArgumentBuilder<CommandSourceStack>> tail = builder -> builder.then(
             literal("load").then(
                 argument("path", greedyString())
-                    .suggests(suggestScripts(host.getScriptsFolder()))
+                    .suggests(suggestScripts(host.obtainScriptsFolder()))
                     .executes(context -> {
                         if (Exceptions.trying(context.getSource().getBukkitSender(), "loading the script",
                             (MayThrow.Runnable) () ->
                                 host.loadScriptTreeAsync(
-                                    host.getScriptsFolder().resolve(getString(context, "path")),
-                                    host.getCompiledFolder()
+                                    host.obtainScriptsFolder().resolve(getString(context, "path")),
+                                    host.obtainCompiledFolder()
                                 ).join())) {
                             context.getSource().sendSuccess(toMC(UI.miniMessage().deserialize("<info>Successfully loaded the script!</info>")), false);
                             return 1;

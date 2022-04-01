@@ -25,12 +25,6 @@ public final class BytePaper extends JavaPlugin implements IScriptLoader {
     @Override
     public void onEnable() {
         register(Debugging.OFF);
-
-        Exceptions.trying(Bukkit.getConsoleSender(), "creating the scripts folder",
-                (MayThrow.Runnable) () -> Files.createDirectories(scriptsFolder));
-
-        Exceptions.trying(Bukkit.getConsoleSender(), "creating the compiled scripts folder",
-                (MayThrow.Runnable) () -> Files.createDirectories(compiledFolder));
     }
 
     public Skript getSkript() {
@@ -70,16 +64,27 @@ public final class BytePaper extends JavaPlugin implements IScriptLoader {
     }
 
     public void unregister() {
-        Arrays.stream(skript.getScripts()).forEachOrdered(skript::unloadScript);
+        Arrays.stream(skript.getScripts()).forEachOrdered(this::unloadScript);
         skript.unregisterLibrary(spec);
         skript = null;
     }
 
-    public Path getScriptsFolder() {
+    public Path obtainScriptsFolder() {
+        if (!Files.isDirectory(scriptsFolder)) {
+            Exceptions.trying(Bukkit.getConsoleSender(), "creating the scripts folder",
+                (MayThrow.Runnable) () -> Files.createDirectories(scriptsFolder));
+        }
+
         return scriptsFolder;
     }
 
-    public Path getCompiledFolder() {
+    public Path obtainCompiledFolder() {
+        if (!Files.isDirectory(compiledFolder)) {
+            Exceptions.trying(Bukkit.getConsoleSender(), "creating the compiled scripts folder",
+                (MayThrow.Runnable) () -> Files.createDirectories(compiledFolder));
+        }
+
+
         return compiledFolder;
     }
 }
