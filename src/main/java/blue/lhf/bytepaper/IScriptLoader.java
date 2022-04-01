@@ -68,7 +68,7 @@ public interface IScriptLoader {
 
             Collection<Script> scripts = new ArrayList<>();
             try {
-                scripts.addAll(getSkript().loadScripts(classes));
+                scripts.add(getSkript().loadScript(classes));
             } catch (ScriptParseError | ScriptCompileError | ScriptLoadError e) {
                 exc.addSuppressed(e);
             }

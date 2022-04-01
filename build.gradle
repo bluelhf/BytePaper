@@ -19,7 +19,7 @@ repositories {
 
 // ============ change these here ============ //
 group = 'blue.lhf'
-version = '0.1.21'
+version = '0.1.22'
 
 def author = 'bluelhf'
 def javaVersion = 17
@@ -51,7 +51,7 @@ configurations {
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
-    extraLibs "org.byteskript:byteskript:1.0.30"
+    extraLibs "org.byteskript:byteskript:1.0.31"
 
     paperweightDevelopmentBundle("io.papermc.paper:dev-bundle:${ver.major}.${ver.minor}.${ver.patch}-R${ver.revision}-${ver.tag}")
 }
