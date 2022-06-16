@@ -42,7 +42,7 @@ java {
 }
 
 dependencies {
-    shadow "org.byteskript:byteskript:1.0.31"
+    implementation("org.byteskript:byteskript:1.0.31")
     paperweightDevelopmentBundle("io.papermc.paper:dev-bundle:${serverImpl}")
 }
 
