@@ -1,11 +1,11 @@
 package blue.lhf.bytepaper.library.syntax.chat;
 
-import blue.lhf.bytepaper.library.PaperBridgeSpec;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
-import org.byteskript.skript.api.*;
+import org.byteskript.skript.api.Event;
+import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.note.EventValue;
 import org.byteskript.skript.api.syntax.EventHolder;
 
