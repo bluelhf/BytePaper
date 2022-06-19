@@ -51,7 +51,10 @@ public class PaperBridgeSpec extends ModifiableLibrary {
                 new LiteralBlockData(this));
 
         Exceptions.trying(Bukkit.getConsoleSender(), "registering properties",
-                (MayThrow.Runnable) () -> registerProperty(new PropertyHandler(StandardHandlers.GET, Player.class.getMethod("getName"), "name")));
+                (MayThrow.Runnable) () -> {
+            registerProperty("name", StandardHandlers.GET, Player.class.getMethod("getName"));
+            PropBlockData.register(this);
+        });
 
         registerEvents(new EventChat(this), new EventPlayerInteract(this));
         registerSyntax(CompileState.CODE_BODY, new EffectSend(this));
