@@ -49,6 +49,10 @@ public class Exceptions {
             while (curr.getCause() != null) {
                 if (curr.getCause() instanceof ScriptError) {
                     stackTrace = curr.getCause().getLocalizedMessage();
+                    Throwable metaCause = curr.getCause().getCause();
+                    if (metaCause != null) {
+                        stackTrace += "\n" + getStackTrace(metaCause);
+                    }
                 }
                 curr = curr.getCause();
             }
