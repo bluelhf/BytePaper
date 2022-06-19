@@ -27,8 +27,8 @@ import static mx.kenzie.foundation.WriteInstruction.swap;
                 """
         }
 )
-public class SendEffect extends Effect {
-    public SendEffect(Library library) {
+public class EffectSend extends Effect {
+    public EffectSend(Library library) {
         super(library, StandardElements.EFFECT, "send [message] %Object% to %Object%");
     }
 

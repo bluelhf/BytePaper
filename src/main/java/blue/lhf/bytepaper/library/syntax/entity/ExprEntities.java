@@ -1,16 +1,20 @@
 package blue.lhf.bytepaper.library.syntax.entity;
 
-import blue.lhf.bytepaper.library.PaperBridgeSpec;
+import blue.lhf.bytepaper.util.Threading;
 import mx.kenzie.foundation.Type;
+import net.minecraft.server.MCUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.syntax.SimpleExpression;
 import org.byteskript.skript.lang.element.StandardElements;
 import org.byteskript.skript.lang.handler.StandardHandlers;
 
-public class EntitiesExpression extends SimpleExpression {
-    public EntitiesExpression(Library library) {
+import java.util.concurrent.CompletableFuture;
+
+public class ExprEntities extends SimpleExpression {
+    public ExprEntities(Library library) {
         // The pattern order is important, because types compile to <.+>, which breaks optionals that follow
         super(library, StandardElements.EXPRESSION, "all %EntityType%s", "all %EntityType%");
         setHandler(StandardHandlers.GET, findMethod(getClass(), "getEntities", EntityType.class));
@@ -21,11 +25,6 @@ public class EntitiesExpression extends SimpleExpression {
         return new Type(Entity[].class);
     }
 
-    @Override
-    public boolean requiresMainThread() {
-        return true;
-    }
-
     public static Entity[] getEntities(EntityType type) {
         Class<? extends Entity> typeClass = type.getEntityClass();
 
@@ -34,6 +33,10 @@ public class EntitiesExpression extends SimpleExpression {
         * technically possible, so let's keep it in either way.
         * */
         if (typeClass == null) return new Entity[0];
+
+        // ByteSkript makes no guarantees regarding what thread handlers are called from. We must block here.
+        if (!MCUtil.isMainThread())
+            return Threading.forceMain(() -> getEntities(type));
 
         return Bukkit.getWorlds().stream().sequential()
                 .flatMap(w -> w.getEntitiesByClass(typeClass).stream())

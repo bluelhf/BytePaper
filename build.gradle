@@ -42,7 +42,8 @@ java {
 }
 
 dependencies {
-    implementation("org.byteskript:byteskript:1.0.31")
+    // We're using a yet-to-be-released version of ByteSkript
+    implementation fileTree(dir: 'libs', includes: ['*.jar'])
     paperweightDevelopmentBundle("io.papermc.paper:dev-bundle:${serverImpl}")
 }
 

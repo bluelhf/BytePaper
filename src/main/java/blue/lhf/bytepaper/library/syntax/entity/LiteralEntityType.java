@@ -1,6 +1,7 @@
 package blue.lhf.bytepaper.library.syntax.entity;
 
 import mx.kenzie.foundation.MethodBuilder;
+import mx.kenzie.foundation.Type;
 import org.bukkit.entity.EntityType;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.syntax.Literal;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 
 import static mx.kenzie.foundation.WriteInstruction.loadConstant;
 
-public class EntityTypeLiteral extends Literal<EntityType> {
+public class LiteralEntityType extends Literal<EntityType> {
 
     private static final Map<String, EntityType> parseMap = new HashMap<>();
 
@@ -25,12 +26,17 @@ public class EntityTypeLiteral extends Literal<EntityType> {
         }
     }
 
-    public EntityTypeLiteral(Library library) {
+    public LiteralEntityType(Library library) {
         super(library, StandardElements.EXPRESSION, "(" + parseMap.keySet()
                 .stream()
                 .map(java.util.regex.Pattern::quote)
                 .map(s -> s.replace("\\", "\\\\"))
                 .collect(Collectors.joining("|")) + ")");
+    }
+
+    @Override
+    public Type getReturnType() {
+        return new Type(EntityType.class);
     }
 
     public void compile(Context context, Pattern.Match match) throws Throwable {

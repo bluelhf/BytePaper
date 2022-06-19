@@ -17,8 +17,8 @@ import static mx.kenzie.foundation.WriteInstruction.invokeInterface;
 import static mx.kenzie.foundation.WriteInstruction.swap;
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;
 
-public class ComponentExpression extends SimpleExpression {
-    public ComponentExpression(Library library) {
+public class ExprComponent extends SimpleExpression {
+    public ExprComponent(Library library) {
         super(library, StandardElements.EXPRESSION, "(raw|mini|legacy|json) [component] [from] %Object%");
     }
 

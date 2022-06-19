@@ -9,17 +9,15 @@ import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.note.EventValue;
 import org.byteskript.skript.api.syntax.EventHolder;
 
-public class ChatEvent extends EventHolder {
-    public ChatEvent(Library library) {
+public class EventChat extends EventHolder {
+    public EventChat(Library library) {
         super(library, "on [player] (chat|message)");
     }
 
     @Override
     public Class<? extends Event> eventClass() {
-        return ChatEvent.Data.class;
+        return EventChat.Data.class;
     }
-
-
 
     public static class Data extends Event {
         protected final AsyncChatEvent event;

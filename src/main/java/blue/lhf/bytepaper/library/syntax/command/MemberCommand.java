@@ -20,13 +20,13 @@ import static mx.kenzie.foundation.WriteInstruction.*;
 import static org.byteskript.skript.compiler.Pattern.Match;
 
 //TODO(ilari): Support for patterns, expressions for the command data
-public class CommandMember extends TriggerHolder {
+public class MemberCommand extends TriggerHolder {
 
     private static final Pattern COMMAND_PATTERN = Pattern.compile("^command /?(?<name>" + SkriptLangSpec.IDENTIFIER + ")");
     private final CommandRegistrar registrar;
     //private static final Pattern ARGUMENT_PATTERN = Pattern.compile("\\s*(?:(?<typed><(?:(?<type>.+?)=)?(?<name>.+?)(?:: ?(?<def>.+?))?>)|(?<optional>\\[.+?])|(?<literal>[^<\\[]+))");
 
-    public CommandMember(Library library, CommandRegistrar registrar) {
+    public MemberCommand(Library library, CommandRegistrar registrar) {
         super(library, StandardElements.MEMBER, "command");
         this.registrar = registrar;
     }

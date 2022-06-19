@@ -3,7 +3,7 @@ package blue.lhf.bytepaper.library;
 import blue.lhf.bytepaper.library.syntax.chat.*;
 import blue.lhf.bytepaper.library.syntax.command.*;
 import blue.lhf.bytepaper.library.syntax.entity.*;
-import blue.lhf.bytepaper.library.syntax.server.ConsoleExpression;
+import blue.lhf.bytepaper.library.syntax.server.ExprConsole;
 import blue.lhf.bytepaper.util.*;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.audience.Audience;
@@ -42,28 +42,29 @@ public class PaperBridgeSpec extends ModifiableLibrary {
         registerConverter(Audience[].class, Audience.class, Audience::audience);
 
         registerSyntax(CompileState.STATEMENT,
-                new ComponentExpression(this), new ConsoleExpression(this),
-                new EntityTypeLiteral(this), new EntitiesExpression(this));
+                new ExprComponent(this), new ExprConsole(this),
+                new LiteralEntityType(this), new ExprEntities(this),
+                new LiteralBlockData(this));
 
         Exceptions.trying(Bukkit.getConsoleSender(), "registering properties",
                 (MayThrow.Runnable) () -> registerProperty(new PropertyHandler(StandardHandlers.GET, Player.class.getMethod("getName"), "name")));
 
-        registerEvents(new ChatEvent(this));
-        registerSyntax(CompileState.CODE_BODY, new SendEffect(this));
+        registerEvents(new EventChat(this));
+        registerSyntax(CompileState.CODE_BODY, new EffectSend(this));
 
         hookCommands();
         hookEvents();
     }
 
     protected void hookCommands() {
-        registerSyntax(CompileState.ROOT, new CommandMember(this, registrar));
+        registerSyntax(CompileState.ROOT, new MemberCommand(this, registrar));
     }
 
     protected void hookEvents() {
         Bukkit.getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onChat(AsyncChatEvent event) {
-                skript.runEvent(new ChatEvent.Data(event));
+                skript.runEvent(new EventChat.Data(event));
             }
         }, host);
     }
