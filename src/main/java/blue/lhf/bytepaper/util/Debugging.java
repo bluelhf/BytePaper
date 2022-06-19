@@ -1,5 +1,11 @@
 package blue.lhf.bytepaper.util;
 
+import mx.kenzie.foundation.Type;
+import mx.kenzie.jupiter.stream.OutputStreamController;
+import org.byteskript.skript.api.Library;
+import org.byteskript.skript.compiler.DebugSkriptCompiler;
+import org.byteskript.skript.compiler.FileContext;
+
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.logging.Logger;
@@ -54,6 +60,17 @@ public enum Debugging {
         public void flush() {
             Arrays.stream(buffer.toString().split("\n")).forEachOrdered(logger::info);
             buffer.setLength(0);
+        }
+    }
+
+    public static class Compiler extends DebugSkriptCompiler {
+        public Compiler(OutputStreamController controller, Library... libraries) {
+            super(controller, libraries);
+        }
+
+        @Override
+        protected FileContext createContext(Type path) {
+            return new FileContext(path);
         }
     }
 
