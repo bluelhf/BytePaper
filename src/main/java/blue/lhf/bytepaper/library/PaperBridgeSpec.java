@@ -1,8 +1,11 @@
 package blue.lhf.bytepaper.library;
 
+import blue.lhf.bytepaper.library.syntax.block.LiteralBlockData;
+import blue.lhf.bytepaper.library.syntax.block.PropBlockData;
 import blue.lhf.bytepaper.library.syntax.chat.*;
 import blue.lhf.bytepaper.library.syntax.command.*;
 import blue.lhf.bytepaper.library.syntax.entity.*;
+import blue.lhf.bytepaper.library.syntax.player.EventPlayerInteract;
 import blue.lhf.bytepaper.library.syntax.server.ExprConsole;
 import blue.lhf.bytepaper.util.*;
 import io.papermc.paper.event.player.AsyncChatEvent;
@@ -11,6 +14,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 import org.byteskript.skript.api.*;
 import org.byteskript.skript.compiler.CompileState;
@@ -49,7 +53,7 @@ public class PaperBridgeSpec extends ModifiableLibrary {
         Exceptions.trying(Bukkit.getConsoleSender(), "registering properties",
                 (MayThrow.Runnable) () -> registerProperty(new PropertyHandler(StandardHandlers.GET, Player.class.getMethod("getName"), "name")));
 
-        registerEvents(new EventChat(this));
+        registerEvents(new EventChat(this), new EventPlayerInteract(this));
         registerSyntax(CompileState.CODE_BODY, new EffectSend(this));
 
         hookCommands();
@@ -65,6 +69,10 @@ public class PaperBridgeSpec extends ModifiableLibrary {
             @EventHandler
             public void onChat(AsyncChatEvent event) {
                 skript.runEvent(new EventChat.Data(event));
+            }
+            @EventHandler
+            public void onInteract(PlayerInteractEvent event) {
+                skript.runEvent(new EventPlayerInteract.Data(event));
             }
         }, host);
     }
