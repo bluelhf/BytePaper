@@ -13,6 +13,7 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -45,6 +46,8 @@ public class PaperBridgeSpec extends ModifiableLibrary {
         registerConverter(Player.class, String.class, Player::getName);
         registerConverter(Entity[].class, Audience.class, Audience::audience);
         registerConverter(Audience[].class, Audience.class, Audience::audience);
+        registerConverter(Block.class, Location.class, Block::getLocation);
+        registerConverter(Object.class, Component.class, o -> Component.text(o.toString()));
 
         registerSyntax(CompileState.STATEMENT,
                 new ExprComponent(this), new ExprConsole(this),
