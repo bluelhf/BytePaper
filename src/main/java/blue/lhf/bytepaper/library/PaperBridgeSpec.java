@@ -57,7 +57,7 @@ public class PaperBridgeSpec extends ModifiableLibrary {
         });
 
         registerEvents(new EventChat(this), new EventPlayerInteract(this));
-        registerSyntax(CompileState.CODE_BODY, new EffectSend(this));
+        registerSyntax(CompileState.CODE_BODY, new EffectSend(this), new EffectBroadcast(this));
 
         hookCommands();
         hookEvents();
