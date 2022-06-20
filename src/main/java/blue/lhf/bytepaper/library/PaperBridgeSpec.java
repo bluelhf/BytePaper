@@ -5,6 +5,7 @@ import blue.lhf.bytepaper.library.syntax.block.PropBlockData;
 import blue.lhf.bytepaper.library.syntax.chat.*;
 import blue.lhf.bytepaper.library.syntax.command.*;
 import blue.lhf.bytepaper.library.syntax.entity.*;
+import blue.lhf.bytepaper.library.syntax.location.ExprCoordinate;
 import blue.lhf.bytepaper.library.syntax.player.EventPlayerInteract;
 import blue.lhf.bytepaper.library.syntax.server.ExprConsole;
 import blue.lhf.bytepaper.util.*;
@@ -48,7 +49,7 @@ public class PaperBridgeSpec extends ModifiableLibrary {
         registerSyntax(CompileState.STATEMENT,
                 new ExprComponent(this), new ExprConsole(this),
                 new LiteralEntityType(this), new ExprEntities(this),
-                new LiteralBlockData(this));
+                new LiteralBlockData(this), new ExprCoordinate(this));
 
         Exceptions.trying(Bukkit.getConsoleSender(), "registering properties",
                 (MayThrow.Runnable) () -> {
