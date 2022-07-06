@@ -3,10 +3,9 @@ package blue.lhf.bytepaper.util;
 import mx.kenzie.foundation.Type;
 import mx.kenzie.jupiter.stream.OutputStreamController;
 import org.byteskript.skript.api.Library;
-import org.byteskript.skript.compiler.DebugSkriptCompiler;
-import org.byteskript.skript.compiler.FileContext;
+import org.byteskript.skript.compiler.*;
 
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
@@ -23,6 +22,18 @@ public enum Debugging {
 
     public boolean trace() {
         return this == TRACE_ONLY || this == BOTH;
+    }
+
+    public static class Controller extends OutputStreamController {
+
+        public Controller(OutputStream stream) {
+            super(stream);
+        }
+
+        @Override
+        public void flush() throws IOException {
+            stream.flush();
+        }
     }
 
     public static class Stream extends OutputStream {

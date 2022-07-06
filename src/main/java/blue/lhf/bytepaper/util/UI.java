@@ -1,42 +1,67 @@
 package blue.lhf.bytepaper.util;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
-import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
-import net.minecraft.network.chat.Component;
 
-import java.awt.Color;
+import java.awt.*;
+import java.util.function.*;
 
 import static blue.lhf.bytepaper.util.UI.Colour.wrap;
-import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.Component.*;
 
 public class UI {
-    public static Palette PALETTE = new Palette(
-        wrap(new Color(0xc5d0e8)), // use Color constructor for preview
-        wrap(new Color(0x838af4)),
-        wrap(new Color(0x3e8989)),
-        wrap(new Color(0xb80c09))
+    public static final Palette PALETTE = new Palette(
+        wrap(new Color(0xF8F0FB)), // use Color constructor for preview
+        wrap(new Color(0xD2883E)),
+        wrap(new Color(0xBABAC7)),
+        wrap(new Color(0xFF674D))
     );
 
-    public static final MiniMessage MSG = MiniMessage.builder()
-        .editTags(builder -> {
+    public static final MiniMessage MSG;
+    public static final MiniMessage RAW;
+    private static final Component PREFIX;
+    private static final String STRING_PREFIX =
+        "<secondary>[</secondary><primary><bold>BytePaper</bold></primary><secondary>]</secondary> <reset>";
+
+    static {
+        Consumer<TagResolver.Builder> adder = builder -> {
             builder.resolver(TagResolver.resolver("info", PALETTE.info().styler()));
             builder.resolver(TagResolver.resolver("primary", PALETTE.primary().styler()));
             builder.resolver(TagResolver.resolver("secondary", PALETTE.secondary().styler()));
             builder.resolver(TagResolver.resolver("error", PALETTE.erroneous().styler()));
-        }).build();
+        };
+
+
+        RAW = MiniMessage.builder().editTags(adder).build();
+        PREFIX = RAW.deserialize(STRING_PREFIX);
+
+
+        UnaryOperator<Component> prefix = data ->
+            empty()
+                .append(PREFIX)
+                .append(data.contains(newline())
+                    ? newline()
+                    : empty())
+                .append(data);
+
+        MSG = MiniMessage.builder().editTags(adder)
+            .postProcessor(prefix)
+            .build();
+    }
 
     private UI() {
     }
 
-    public static MiniMessage miniMessage() {
-        return MSG;
+    public static MiniMessage miniMessage(boolean prefix) {
+        if (prefix) return MSG;
+        return RAW;
     }
 
-    public static Component toMC(net.kyori.adventure.text.Component component) {
-        return Component.Serializer.fromJson(GsonComponentSerializer.gson().serializeToTree(component));
+    public static MiniMessage miniMessage() {
+        return MSG;
     }
 
     public record Colour(Tag styler, Color color, TextColor textColor) {
@@ -66,19 +91,19 @@ public class UI {
             return TextColor.color(color.value());
         }
 
-        public net.kyori.adventure.text.Component info(String content) {
+        public Component info(String content) {
             return text(content, info.textColor());
         }
 
-        public net.kyori.adventure.text.Component primary(String content) {
+        public Component primary(String content) {
             return text(content, primary.textColor());
         }
 
-        public net.kyori.adventure.text.Component secondary(String content) {
+        public Component secondary(String content) {
             return text(content, secondary.textColor());
         }
 
-        public net.kyori.adventure.text.Component error(String content) {
+        public Component error(String content) {
             return text(content, erroneous.textColor());
         }
     }

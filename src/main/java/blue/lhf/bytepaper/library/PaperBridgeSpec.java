@@ -1,7 +1,6 @@
 package blue.lhf.bytepaper.library;
 
-import blue.lhf.bytepaper.library.syntax.block.LiteralBlockData;
-import blue.lhf.bytepaper.library.syntax.block.PropBlockData;
+import blue.lhf.bytepaper.library.syntax.block.*;
 import blue.lhf.bytepaper.library.syntax.chat.*;
 import blue.lhf.bytepaper.library.syntax.command.*;
 import blue.lhf.bytepaper.library.syntax.entity.*;
@@ -18,7 +17,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
-import org.byteskript.skript.api.*;
+import org.byteskript.skript.api.ModifiableLibrary;
 import org.byteskript.skript.compiler.CompileState;
 import org.byteskript.skript.lang.handler.StandardHandlers;
 import org.byteskript.skript.runtime.Skript;
@@ -46,13 +45,15 @@ public class PaperBridgeSpec extends ModifiableLibrary {
         registerConverter(Player.class, String.class, Player::getName);
         registerConverter(Entity[].class, Audience.class, Audience::audience);
         registerConverter(Audience[].class, Audience.class, Audience::audience);
+        registerConverter(Object[].class, String.class, Arrays::deepToString);
         registerConverter(Block.class, Location.class, Block::getLocation);
         registerConverter(Object.class, Component.class, o -> Component.text(o.toString()));
 
         registerSyntax(CompileState.STATEMENT,
-                new ExprComponent(this), new ExprConsole(this),
-                new LiteralEntityType(this), new ExprEntities(this),
-                new LiteralBlockData(this), new ExprCoordinate(this));
+            new ExprComponent(this), new ExprConsole(this),
+            new LiteralEntityType(this), new ExprEntities(this),
+            new LiteralBlockData(this), new ExprCoordinate(this),
+            new ExprArguments(this), new ExprExecutor(this));
 
         Exceptions.trying(Bukkit.getConsoleSender(), "registering properties",
                 (MayThrow.Runnable) () -> {

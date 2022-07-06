@@ -8,8 +8,6 @@ import java.io.*;
 import java.util.function.Consumer;
 import java.util.logging.*;
 
-import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
-
 public class Exceptions {
     private Exceptions() {
     }
@@ -33,13 +31,24 @@ public class Exceptions {
     }
 
     public static boolean trying(Logger logger, Level level, String task, Runnable runnable) {
-        return trying((exc) -> {
-            logger.log(level, """
-                        An exception occurred while %s!
-                                                
-                        %s
-                        """.formatted(task, getStackTrace(exc)));
-        }, runnable);
+        return trying((exc) -> logger.log(level, """
+            An exception occurred while %s!
+                                    
+            %s
+            """.formatted(task, getStackTrace(exc))), runnable);
+    }
+
+    public static String plain(String stackTrace) {
+        return stackTrace
+            .replace("\t", "  ")
+            .replace("\r", "")
+            .replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -/]*[@-~]", "");
+    }
+
+    public static void throwing(Audience audience, String task, Throwable throwable) {
+        trying(audience, task, (MayThrow.Runnable) () -> {
+            throw throwable;
+        });
     }
 
     public static boolean trying(Audience audience, String task, Runnable runnable) {
@@ -56,25 +65,26 @@ public class Exceptions {
                 }
                 curr = curr.getCause();
             }
-            stackTrace = stackTrace
-                    .replace("\t", "  ")
-                    .replace("\r", "")
-                    .replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -/]*[@-~]", "");
+            stackTrace = plain(stackTrace);
             if (audience instanceof Player player) {
                 player.sendMessage(UI.miniMessage().deserialize("""
-                    <hover:show_text:'<error>%s</error>'>
-                    <error>An exception occurred while %s:
+                    <info>An exception occurred while %s:</info>
+                    <error>
                         %s!
                     </error>
                     <secondary>Hover to see details.</secondary>
-                    </hover>""".formatted(UI.miniMessage().escapeTags(stackTrace).replace("\n", "<br>").replace("'", "''"),
-                    task, miniMessage().escapeTags(curr.getLocalizedMessage()).replace("'", "''"))));
+                    """.formatted(task, UI.RAW.escapeTags(curr.getLocalizedMessage()).replace("'", "''"))).hoverEvent(UI.RAW.deserialize("""
+                    <error>%s</error>""".formatted(UI.RAW.escapeTags(plain(getStackTrace(curr))).replace("\n",
+                    "<br>").replace("'", "''")))));
             } else {
                 audience.sendMessage(UI.miniMessage().deserialize("""
-                        <error>An exception occurred while %s!
-                                                
-                        %s
-                        </error>""".formatted(task, stackTrace)));
+                    <info>An exception occurred while %s!</info>
+                    <error>                        
+                    %s
+                                            
+                    Stack trace:
+                    %s
+                    </error>""".formatted(task, stackTrace, getStackTrace(curr))));
             }
         }, runnable);
     }

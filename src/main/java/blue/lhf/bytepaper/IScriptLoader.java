@@ -24,7 +24,7 @@ public interface IScriptLoader {
 
     CommandRegistrar getRegistrar();
 
-    default Collection<Script> loadScript(Path path) throws IOException {
+    default Script loadScript(Path path) throws IOException {
         return loadScript(path, null);
     }
 
@@ -38,7 +38,7 @@ public interface IScriptLoader {
         getSkript().unloadScript(script);
     }
 
-    default Collection<Script> loadScript(Path path, Path outputDir) throws IOException {
+    default Script loadScript(Path path, Path outputDir) throws IOException {
         try (var is = new BufferedInputStream(Files.newInputStream(path))) {
             ScriptLoadError exc = new ScriptLoadError("Failed to load script " + path.getFileName().toString());
             var classes = getSkript().compileComplexScript(
@@ -66,16 +66,16 @@ public interface IScriptLoader {
                 }
             }
 
-            Collection<Script> scripts = new ArrayList<>();
+            Script script = null;
             try {
-                scripts.add(getSkript().loadScript(classes));
+                script = getSkript().loadScript(classes);
             } catch (ScriptParseError | ScriptCompileError | ScriptLoadError e) {
                 exc.addSuppressed(e);
             }
             if (exc.getSuppressed().length > 0)
                 throw exc;
 
-            return scripts;
+            return script;
         }
     }
 
@@ -85,7 +85,7 @@ public interface IScriptLoader {
 
     default Collection<Script> loadScriptTree(Path path, Path outputDir) throws IOException {
         if (Files.isRegularFile(path)) {
-            return loadScript(path, outputDir);
+            return Collections.singleton(loadScript(path, outputDir));
         }
 
         final Function<Path, String> name = p -> p.getFileName().toString();
@@ -106,12 +106,12 @@ public interface IScriptLoader {
         return scripts;
     }
 
-    default CompletableFuture<Collection<Script>> loadScriptAsync(Path path) {
+    default CompletableFuture<Script> loadScriptAsync(Path path) {
         return loadScriptAsync(path, null);
     }
 
-    default CompletableFuture<Collection<Script>> loadScriptAsync(Path path, Path outputDir) {
-        return async((MayThrow.Supplier<Collection<Script>>) () -> loadScript(path, outputDir));
+    default CompletableFuture<Script> loadScriptAsync(Path path, Path outputDir) {
+        return async((MayThrow.Supplier<Script>) () -> loadScript(path, outputDir));
     }
 
     default CompletableFuture<Collection<Script>> loadScriptTreeAsync(Path path) {
@@ -123,6 +123,17 @@ public interface IScriptLoader {
     }
 
     default <T> CompletableFuture<T> async(Supplier<T> supplier) {
-        return CompletableFuture.supplyAsync(supplier, getSkript().getExecutor());
+        return new CompletableFuture<>() {{
+            CompletableFuture.supplyAsync(() -> {
+                try {
+                    T val = supplier.get();
+                    complete(val);
+                    return val;
+                } catch (Exception ex) {
+                    completeExceptionally(ex);
+                    return null;
+                }
+            }, getSkript().getExecutor());
+        }};
     }
 }

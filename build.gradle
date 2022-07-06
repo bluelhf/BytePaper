@@ -15,6 +15,7 @@ repositories {
     maven { url = uri("https://maven.fabricmc.net/") }
     maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
     maven { url = uri("https://repo.kenzie.mx/releases") }
+    maven { url = uri("https://gitlab.com/api/v4/projects/18568066/packages/maven") }
 }
 
 group = 'blue.lhf'
@@ -45,6 +46,7 @@ dependencies {
     // We're using a yet-to-be-released version of ByteSkript
     implementation fileTree(dir: 'libs', includes: ['*.jar'])
     paperweightDevelopmentBundle("io.papermc.paper:dev-bundle:${serverImpl}")
+    implementation "com.moderocky:Commander:3.0.0-SNAPSHOT"
 }
 
 

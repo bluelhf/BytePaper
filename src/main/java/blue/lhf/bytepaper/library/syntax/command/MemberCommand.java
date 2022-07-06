@@ -6,7 +6,7 @@ import org.bukkit.command.*;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.syntax.TriggerHolder;
 import org.byteskript.skript.compiler.*;
-import org.byteskript.skript.compiler.structure.SectionMeta;
+import org.byteskript.skript.compiler.structure.*;
 import org.byteskript.skript.error.*;
 import org.byteskript.skript.lang.element.StandardElements;
 import org.byteskript.skript.runtime.data.SourceData;
@@ -48,7 +48,8 @@ public class MemberCommand extends TriggerHolder {
         String name = match.matcher().group("name");
         if (registrar.exists(name)) {
             throw new ScriptParseError(context.lineNumber(),
-                "The command /" + name + " could not be registered, because another command with that name already exists");
+                context.getError(), "The command /" + name + " could not be registered, because another command with " +
+                "that name already exists", null);
         }
 
         super.preCompile(context, match);
@@ -57,21 +58,29 @@ public class MemberCommand extends TriggerHolder {
     @Override
     public void compile(Context context, Match match) {
         super.compile(context, match);
+
+        PreVariable executor = new PreVariable(null);
+        executor.internal = true;
+        context.forceUnspecVariable(executor);
+
         String name = match.matcher().group("name");
         String path = context.getType().internalName() + "/command_" + name + "_executor";
         context.addFlag(BytePaperFlag.IN_COMMAND);
         context.addSuppressedBuilder(Type.of(path))
-            .setModifiers(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC)
-            .addInterfaces(CommandExecutor.class)
-            .addMethod("onCommand")
-            .addAnnotation(Override.class).finish()
-            .addAnnotation(CommandData.class).addValue("label", name).setVisible(true).finish()
             .addAnnotation(SourceData.class).setVisible(true)
             .addValue("name", this.name())
             .addValue("type", "command")
             .addValue("line", context.lineNumber())
             .addValue("compiled", Instant.now().getEpochSecond())
             .finish()
+            .addAnnotation(CommandData.class)
+            .addValue("label", name)
+            .setVisible(true)
+            .finish()
+            .setModifiers(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC)
+            .addInterfaces(CommandExecutor.class)
+            .addMethod("onCommand")
+            .addAnnotation(Override.class).finish()
             .setModifiers(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC)
             .setReturnType(boolean.class)
             .addParameter(CommandSender.class, Command.class, String.class, String[].class)

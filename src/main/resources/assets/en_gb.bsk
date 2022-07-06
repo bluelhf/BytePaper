@@ -1,0 +1,4 @@
+function get(path):
+  trigger:
+    if {path} is "commands.bytepaper.load.success":
+      return "<info>Successfully loaded <primary><script></primary> in <primary><time> ms</primary>!</info>"

@@ -39,9 +39,28 @@ public class MayThrow {
         }
 
         void run0() throws Throwable;
+
         static MayThrow.Runnable throwing(java.lang.Runnable runnable) {
             return runnable::run;
         }
+    }
+
+    @FunctionalInterface
+    public interface Function<T, R> extends java.util.function.Function<T, R> {
+        static <T, R> MayThrow.Function<T, R> throwing(java.util.function.Function<T, R> function) {
+            return function::apply;
+        }
+
+        @Override
+        default R apply(T t) {
+            try {
+                return get0(t);
+            } catch (Throwable thr) {
+                throw new Threw(thr);
+            }
+        }
+
+        R get0(T t) throws Throwable;
     }
 }
 
