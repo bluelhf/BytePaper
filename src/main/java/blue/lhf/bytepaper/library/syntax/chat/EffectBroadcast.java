@@ -4,7 +4,6 @@ import blue.lhf.bytepaper.library.syntax.SyntaxUtils;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.syntax.Effect;
 import org.byteskript.skript.compiler.CompileState;

@@ -11,6 +11,8 @@ import java.lang.invoke.*;
 import java.lang.reflect.Method;
 import java.util.logging.*;
 
+import static blue.lhf.bytepaper.util.Classes.flattenClassTree;
+
 public class CommandRegistrar {
     private static final String FALLBACK_PREFIX = "bytepaper";
 
@@ -43,11 +45,13 @@ public class CommandRegistrar {
                                    @NotNull String[] args) {
                 return Exceptions.trying(Bukkit.getConsoleSender(), "running a BytePaper command",
                     (MayThrow.Runnable) () -> {
-                        Class<?> classy = host.getLoader().loadClass(executor.getTypeName());
+                        Class<?> classy = host.getLoader().loadClass(executor.getTypeName().split("\\$")[0]);
                         Method target = null;
-                        for (Method m : classy.getDeclaredMethods()) {
-                            if (m.getAnnotation(CommandData.class) == null) continue;
-                            target = m;
+                        for (Class<?> sub : flattenClassTree(classy)) {
+                            for (Method m : sub.getDeclaredMethods()) {
+                                if (m.getAnnotation(CommandData.class) == null) continue;
+                                target = m;
+                            }
                         }
 
                         assert target != null : "Tried to execute an unloaded command";

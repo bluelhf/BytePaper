@@ -5,9 +5,12 @@ import mx.kenzie.foundation.Type;
 import org.bukkit.command.*;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.syntax.TriggerHolder;
-import org.byteskript.skript.compiler.*;
+import org.byteskript.skript.compiler.CommonTypes;
+import org.byteskript.skript.compiler.Context;
+import org.byteskript.skript.compiler.SkriptLangSpec;
 import org.byteskript.skript.compiler.structure.*;
-import org.byteskript.skript.error.*;
+import org.byteskript.skript.error.ScriptCompileError;
+import org.byteskript.skript.error.ScriptParseError;
 import org.byteskript.skript.lang.element.StandardElements;
 import org.byteskript.skript.runtime.data.SourceData;
 import org.objectweb.asm.Opcodes;
@@ -44,18 +47,6 @@ public class MemberCommand extends TriggerHolder {
     }
 
     @Override
-    public void preCompile(Context context, Match match) throws Throwable {
-        String name = match.matcher().group("name");
-        if (registrar.exists(name)) {
-            throw new ScriptParseError(context.lineNumber(),
-                context.getError(), "The command /" + name + " could not be registered, because another command with " +
-                "that name already exists", null);
-        }
-
-        super.preCompile(context, match);
-    }
-
-    @Override
     public void compile(Context context, Match match) {
         super.compile(context, match);
 
@@ -64,35 +55,34 @@ public class MemberCommand extends TriggerHolder {
         context.forceUnspecVariable(executor);
 
         String name = match.matcher().group("name");
-        String path = context.getType().internalName() + "/command_" + name + "_executor";
+        String path = context.getType().internalName() + "$command_" + name + "_executor";
         context.addFlag(BytePaperFlag.IN_COMMAND);
-        context.addSuppressedBuilder(Type.of(path))
-            .addAnnotation(SourceData.class).setVisible(true)
-            .addValue("name", this.name())
-            .addValue("type", "command")
-            .addValue("line", context.lineNumber())
-            .addValue("compiled", Instant.now().getEpochSecond())
-            .finish()
-            .addAnnotation(CommandData.class)
-            .addValue("label", name)
-            .setVisible(true)
-            .finish()
-            .setModifiers(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC)
-            .addInterfaces(CommandExecutor.class)
-            .addMethod("onCommand")
-            .addAnnotation(Override.class).finish()
-            .setModifiers(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC)
-            .setReturnType(boolean.class)
-            .addParameter(CommandSender.class, Command.class, String.class, String[].class)
-            .writeCode(
-                load(new Type(CommandSender.class), 0),
-                load(new Type(Command.class), 1),
-                load(new Type(String.class), 2),
-                load(new Type(String[].class), 3),
-                invokeStatic(false, context.getType(), returnType(context, match), name, parameters(context, match)),
-                push(true),
-                returnSmall()
-            ).finish();
+
+        context.getBuilder().addInnerClass(Type.of(path),
+                        Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC)
+                .addAnnotation(CommandData.class)
+                .addValue("label", name)
+                .setVisible(true)
+                .finish()
+                .addInterfaces(CommandExecutor.class)
+                .addMethod("onCommand")
+                .addAnnotation(CommandData.class)
+                .addValue("label", name)
+                .setVisible(true)
+                .finish()
+                .addAnnotation(Override.class).finish()
+                .setModifiers(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC)
+                .setReturnType(boolean.class)
+                .addParameter(CommandSender.class, Command.class, String.class, String[].class)
+                .writeCode(
+                        load(new Type(CommandSender.class), 0),
+                        load(new Type(Command.class), 1),
+                        load(new Type(String.class), 2),
+                        load(new Type(String[].class), 3),
+                        invokeStatic(false, context.getType(), returnType(context, match), name, parameters(context, match)),
+                        push(true),
+                        returnSmall()
+                ).finish();
 
         try {
             registrar.register(name, Type.of(path));

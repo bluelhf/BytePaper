@@ -43,8 +43,7 @@ java {
 }
 
 dependencies {
-    // We're using a yet-to-be-released version of ByteSkript
-    implementation fileTree(dir: 'libs', includes: ['*.jar'])
+    implementation "org.byteskript:byteskript:1.0.35"
     paperweightDevelopmentBundle("io.papermc.paper:dev-bundle:${serverImpl}")
     implementation "com.moderocky:Commander:3.0.0-SNAPSHOT"
 }
@@ -73,4 +72,22 @@ bukkit {
     main = "${group}.${project.name.toLowerCase()}.BytePaper"
     apiVersion = "${ver.major}.${ver.minor}"
     authors = [author]
+
+    commands {
+        bytepaper {
+            aliases = ["byteskript", "bp", "bsk"]
+            description = "Manage BytePaper"
+            permission = "bp.manage"
+        }
+    }
+
+    permissions {
+        "bp.*" {
+            children = ["bp.manage"]
+        }
+        "bp.manage" {
+            description = "Allows you to use the BytePaper management command"
+            setDefault("OP")
+        }
+    }
 }

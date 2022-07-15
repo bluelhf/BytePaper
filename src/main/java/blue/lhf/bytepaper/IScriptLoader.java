@@ -13,6 +13,8 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.*;
 
+import static blue.lhf.bytepaper.util.Classes.flattenClassTree;
+import static blue.lhf.bytepaper.util.Classes.flattenClassTrees;
 import static java.nio.file.StandardOpenOption.*;
 import static java.util.Comparator.comparing;
 
@@ -29,8 +31,8 @@ public interface IScriptLoader {
     }
 
     default void unloadScript(Script script) {
-        for (Structure structure : script.getMembers()) {
-            CommandData ann = structure.element().getAnnotation(CommandData.class);
+        for (Class<?> clazz : flattenClassTrees(script.classes())) {
+            var ann = clazz.getAnnotation(CommandData.class);
             if (ann == null) continue;
             getRegistrar().unregister(ann.label());
         }
@@ -42,7 +44,7 @@ public interface IScriptLoader {
         try (var is = new BufferedInputStream(Files.newInputStream(path))) {
             ScriptLoadError exc = new ScriptLoadError("Failed to load script " + path.getFileName().toString());
             var classes = getSkript().compileComplexScript(
-                is, path.getFileName().toString());
+                is, "skript." + path.getFileName().toString());
 
             for (PostCompileClass pcc : classes) {
                 Script[] scripts = getSkript().getScripts();
