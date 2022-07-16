@@ -76,7 +76,14 @@ public interface IScriptLoader {
 
             Script script = null;
             try {
-                script = getSkript().loadScript(classes);
+                Object loader = Mirror.of(getSkript()).method("createLoader").invoke();
+                var mirror = Mirror.of(loader).method("loadClass", String.class, byte[].class);
+                Class<?>[] loadedClasses = new Class[classes.length];
+                for (int i = 0; i < classes.length; i++) {
+                    PostCompileClass pcc = classes[i];
+                    loadedClasses[i] = (Class<?>) mirror.invoke(pcc.name(), pcc.code());
+                }
+                script = getSkript().loadScript(loadedClasses);
             } catch (ScriptParseError | ScriptCompileError | ScriptLoadError e) {
                 exc.addSuppressed(e);
             }
