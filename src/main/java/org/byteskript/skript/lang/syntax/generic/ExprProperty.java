@@ -70,6 +70,7 @@ public class ExprProperty extends RelationalExpression implements Referent {
         if (!matcher.find()) return null;
         final String name = matcher.group("name");
         final Matcher dummy = this.createDummy(thing, i, matcher);
+        //noinspection ResultOfMethodCallIgnored
         dummy.find();
         return new Pattern.Match(dummy, name, CommonTypes.OBJECT);
     }
