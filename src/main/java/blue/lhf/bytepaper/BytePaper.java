@@ -70,13 +70,16 @@ public final class BytePaper extends JavaPlugin implements IScriptLoader {
         BytePaperCommand commander = new BytePaperCommand(this);
 
         var command = getCommand("bytepaper");
-        Exceptions.trying(getLogger(), Level.WARNING, "registering the BytePaper command", () -> {
+        if (!Exceptions.trying(getLogger(), Level.WARNING, "registering the BytePaper command", () -> {
             //noinspection ConstantConditions
             command.setTabCompleter(commander);
             command.setExecutor(commander);
-        });
+        })) {
+            this.onDisable();
+            return;
+        }
 
-        Exceptions.trying(getLogger(), Level.SEVERE, "loading the language script", (MayThrow.Runnable) () -> {
+        if (!Exceptions.trying(getLogger(), Level.SEVERE, "loading the language script", (MayThrow.Runnable) () -> {
             Path langPath = obtainLanguageFolder().resolve("en_gb.bsk");
             if (Files.notExists(langPath)) {
                 Files.createFile(langPath);
@@ -87,7 +90,9 @@ public final class BytePaper extends JavaPlugin implements IScriptLoader {
                 }
             }
             langScript = loadScript(langPath);
-        });
+        })) {
+            this.onDisable();
+        }
     }
 
     private String getRaw(String langPath) {
