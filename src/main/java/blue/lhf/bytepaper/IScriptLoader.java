@@ -1,11 +1,13 @@
 package blue.lhf.bytepaper;
 
+import blue.lhf.bytepaper.commands.arguments.ArgUtils;
 import blue.lhf.bytepaper.library.syntax.command.*;
 import blue.lhf.bytepaper.util.MayThrow;
 import mx.kenzie.foundation.language.PostCompileClass;
+import mx.kenzie.mirror.Mirror;
 import org.byteskript.skript.error.*;
 import org.byteskript.skript.runtime.*;
-import org.byteskript.skript.runtime.data.Structure;
+import org.byteskript.skript.runtime.internal.*;
 
 import java.io.*;
 import java.nio.file.*;
@@ -13,9 +15,8 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.*;
 
-import static blue.lhf.bytepaper.util.Classes.flattenClassTree;
-import static blue.lhf.bytepaper.util.Classes.flattenClassTrees;
-import static java.nio.file.StandardOpenOption.*;
+import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 import static java.util.Comparator.comparing;
 
 /**
@@ -32,10 +33,14 @@ public interface IScriptLoader {
     }
 
     default void unloadScript(Script script) {
-        for (Class<?> clazz : flattenClassTrees(script.classes())) {
-            var ann = clazz.getAnnotation(CommandData.class);
-            if (ann == null) continue;
-            getRegistrar().unregister(ann.label());
+        for (var entry : CommandRegistrar.findCommands(script.classes()).entrySet()) {
+            getRegistrar().unregister(entry.getValue());
+        }
+
+        if (script.mainClass().getClassLoader() instanceof ScriptClassLoader scl) {
+            //noinspection unchecked yes yes i know this is dangerous i had to do it
+            final var list = ((WeakList<ScriptClassLoader>) Mirror.of(getSkript()).field("loaders").get());
+            list.removeIf(ref -> ref.refersTo(scl));
         }
 
         getSkript().unloadScript(script);
@@ -45,13 +50,13 @@ public interface IScriptLoader {
         try (var is = new BufferedInputStream(Files.newInputStream(path))) {
             ScriptLoadError exc = new ScriptLoadError("Failed to load script " + path.getFileName().toString());
             var classes = getSkript().compileComplexScript(
-                is, "skript." + path.getFileName().toString());
+                is, ArgUtils.toInternalScript(path.getFileName().toString(), false));
 
             for (PostCompileClass pcc : classes) {
                 Script[] scripts = getSkript().getScripts();
                 for (Script sc : scripts) {
                     if (sc.getPath().equals(pcc.name())) {
-                        getSkript().unloadScript(sc);
+                        unloadScript(sc);
                     }
                 }
             }
@@ -75,6 +80,16 @@ public interface IScriptLoader {
             } catch (ScriptParseError | ScriptCompileError | ScriptLoadError e) {
                 exc.addSuppressed(e);
             }
+
+            if (script != null) {
+                try {
+                    getRegistrar().registerAll(script.classes());
+                } catch (DuplicateCommandException e) {
+                    exc.addSuppressed(e);
+                    unloadScript(script);
+                }
+            }
+
             if (exc.getSuppressed().length > 0)
                 throw exc;
 

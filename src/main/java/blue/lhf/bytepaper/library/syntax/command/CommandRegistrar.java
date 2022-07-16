@@ -1,17 +1,17 @@
 package blue.lhf.bytepaper.library.syntax.command;
 
 import blue.lhf.bytepaper.util.*;
-import mx.kenzie.foundation.Type;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.byteskript.skript.runtime.Skript;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.invoke.*;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
+import java.util.*;
 import java.util.logging.*;
 
-import static blue.lhf.bytepaper.util.Classes.flattenClassTree;
+import static blue.lhf.bytepaper.util.Classes.flattenClassTrees;
 
 public class CommandRegistrar {
     private static final String FALLBACK_PREFIX = "bytepaper";
@@ -25,7 +25,33 @@ public class CommandRegistrar {
         this.host = host;
     }
 
-    public void register(String label, Type executor) throws DuplicateCommandException {
+    public static Map<Method, String> findCommands(Class<?>... classes) {
+        Map<Method, String> map = new HashMap<>();
+        for (Class<?> sub : flattenClassTrees(classes)) {
+            for (Method m : sub.getDeclaredMethods()) {
+                var ann = m.getAnnotation(CommandData.class);
+                if (ann == null) continue;
+                map.put(m, ann.label());
+            }
+        }
+        return map;
+    }
+
+    public void registerAll(Class<?>[] classes) throws DuplicateCommandException {
+        var exception = new DuplicateCommandException("Could not register one or more commands from " + Arrays.asList(classes));
+        for (var entry : findCommands(classes).entrySet()) {
+            try {
+                register(entry.getValue(), entry.getKey());
+            } catch (DuplicateCommandException e) {
+                exception.addSuppressed(e);
+            }
+        }
+
+        if (exception.getSuppressed().length > 0)
+            throw exception;
+    }
+
+    public void register(String label, Method method) throws DuplicateCommandException {
 
         // This class exists solely to provide access to the Command constructor...
         abstract class Subcommand extends Command {
@@ -44,19 +70,15 @@ public class CommandRegistrar {
                                    @NotNull String commandLabel,
                                    @NotNull String[] args) {
                 return Exceptions.trying(Bukkit.getConsoleSender(), "running a BytePaper command",
-                    (MayThrow.Runnable) () -> {
-                        Class<?> classy = host.getLoader().loadClass(executor.getTypeName().split("\\$")[0]);
-                        Method target = null;
-                        for (Class<?> sub : flattenClassTree(classy)) {
-                            for (Method m : sub.getDeclaredMethods()) {
-                                if (m.getAnnotation(CommandData.class) == null) continue;
-                                target = m;
-                            }
+                    (MayThrow.Runnable) () -> host.runScript(() -> {
+                        try {
+                            method.invoke(null, sender, this, commandLabel, args);
+                        } catch (IllegalAccessException e) {
+                            throw new AssertionError("Cannot happen");
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
                         }
-
-                        assert target != null : "Tried to execute an unloaded command";
-                        target.invoke(null, sender, this, commandLabel, args);
-                    });
+                    }));
             }
         });
 
@@ -79,10 +101,6 @@ public class CommandRegistrar {
         }
 
         commandUpdater.run();
-    }
-
-    public boolean exists(String name) {
-        return Bukkit.getCommandMap().getCommand("%s:%s".formatted(FALLBACK_PREFIX, name)) != null;
     }
 
     public void unregister(String name) {

@@ -38,12 +38,10 @@ import java.util.UUID;
 public class PaperBridgeSpec extends ModifiableLibrary {
     private final Skript skript;
     private final Plugin host;
-    private final CommandRegistrar registrar;
 
-    public PaperBridgeSpec(Skript skript, Plugin host, CommandRegistrar registrar) {
+    public PaperBridgeSpec(Skript skript, Plugin host) {
         super("Paper");
         this.skript = skript;
-        this.registrar = registrar;
         this.host = host;
     }
 
@@ -80,7 +78,7 @@ public class PaperBridgeSpec extends ModifiableLibrary {
     }
 
     protected void hookCommands() {
-        registerSyntax(CompileState.ROOT, new MemberCommand(this, registrar));
+        registerSyntax(CompileState.ROOT, new MemberCommand(this));
     }
 
     protected void hookEvents() {
