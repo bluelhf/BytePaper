@@ -66,7 +66,7 @@ public class BytePaperCommand extends Commander<CommandSender> implements Comman
     @Override
     protected Commander<CommandSender>.CommandImpl create() {
         return command("bytepaper", "bp", "bsk")
-            .arg("load", load())
+            .arg(new String[]{"load", "reload"}, load())
             .arg("unload", unload())
             .onException((sender, exc) -> {
                 Exceptions.trying(sender, "running the command", (MayThrow.Runnable) () -> {
