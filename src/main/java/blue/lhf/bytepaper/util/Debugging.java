@@ -9,19 +9,8 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
-public enum Debugging {
-    OFF,
-    TRACE_ONLY,
-    COMPILER_ONLY,
-    BOTH;
-
-    public boolean compiler() {
-        return this == COMPILER_ONLY || this == BOTH;
-    }
-
-
-    public boolean trace() {
-        return this == TRACE_ONLY || this == BOTH;
+public class Debugging {
+    private Debugging() {
     }
 
     public static class Stream extends OutputStream {
@@ -53,7 +42,7 @@ public enum Debugging {
 
         @Override
         public void flush() {
-            Arrays.stream(buffer.toString().split("\n")).forEachOrdered(logger::info);
+            Arrays.stream(buffer.toString().split("\n")).forEachOrdered(logger::fine);
             buffer.setLength(0);
         }
     }
