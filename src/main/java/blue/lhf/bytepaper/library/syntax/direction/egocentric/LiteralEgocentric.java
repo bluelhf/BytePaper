@@ -6,25 +6,16 @@ import org.byteskript.skript.api.syntax.Literal;
 import org.byteskript.skript.compiler.*;
 import org.byteskript.skript.lang.element.StandardElements;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static mx.kenzie.foundation.WriteInstruction.getStaticField;
 
 public class LiteralEgocentric extends Literal<Egocentric> {
-    private static final Map<String, Egocentric> parseMap = new HashMap<>();
-
-    static {
-        for (Egocentric dir : Egocentric.values()) {
-            parseMap.put(dir.name().toLowerCase(Locale.ROOT), dir);
-        }
-    }
-
     public LiteralEgocentric(Library library) {
-        super(library, StandardElements.EXPRESSION, "(" + parseMap.keySet()
-                .stream()
+        super(library, StandardElements.EXPRESSION, "(" +
+            Arrays.stream(Egocentric.values())
+                .map(Egocentric::name).map(String::toLowerCase)
                 .map(java.util.regex.Pattern::quote)
                 .map(s -> s.replace("\\", "\\\\"))
                 .collect(Collectors.joining("|")) + ")");
@@ -52,6 +43,6 @@ public class LiteralEgocentric extends Literal<Egocentric> {
 
     @Override
     public Egocentric parse(String s) {
-        return parseMap.get(s);
+        return Egocentric.valueOf(s.toUpperCase(Locale.ROOT));
     }
 }

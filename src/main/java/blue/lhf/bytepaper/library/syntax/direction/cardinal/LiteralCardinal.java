@@ -6,26 +6,18 @@ import org.byteskript.skript.api.syntax.Literal;
 import org.byteskript.skript.compiler.*;
 import org.byteskript.skript.lang.element.StandardElements;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static mx.kenzie.foundation.WriteInstruction.getStaticField;
 
 public class LiteralCardinal extends Literal<Cardinal> {
-    private static final Map<String, Cardinal> parseMap = new HashMap<>();
-
-    static {
-        for (Cardinal dir : Cardinal.values()) {
-            parseMap.put(dir.name(), dir);
-        }
-    }
 
     public LiteralCardinal(Library library) {
-        super(library, StandardElements.EXPRESSION, "(" + parseMap.keySet()
-                .stream()
+        super(library, StandardElements.EXPRESSION, "(" +
+            Arrays.stream(Cardinal.values())
+                .map(Cardinal::name).map(String::toLowerCase)
                 .map(java.util.regex.Pattern::quote)
-                .map(s -> s.replace("\\", "\\\\"))
                 .collect(Collectors.joining("|")) + ")");
     }
 
@@ -47,6 +39,6 @@ public class LiteralCardinal extends Literal<Cardinal> {
 
     @Override
     public Cardinal parse(String s) {
-        return parseMap.get(s);
+        return Cardinal.valueOf(s.toUpperCase(Locale.ROOT));
     }
 }
