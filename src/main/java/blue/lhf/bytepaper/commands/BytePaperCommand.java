@@ -125,9 +125,15 @@ public class BytePaperCommand extends Commander<CommandSender> implements Comman
         return execute(sender, args);
     }
 
+
+    //TODO(ilari): better tab completer — ask kenzie to update commander?
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
                                                 @NotNull String label, @NotNull String[] args) {
-        return getTabCompletions(args);
+        String input = String.join(" ", args);
+        if (input.startsWith("load ") || input.startsWith("reload ")) return load().argument.getCompletions();
+        if (input.startsWith("unload ")) return unload().argument.getCompletions();
+        if (!input.contains(" ")) return List.of("load", "unload", "clean");
+        return Collections.emptyList();
     }
 }
