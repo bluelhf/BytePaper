@@ -35,7 +35,7 @@ public final class BytePaper extends JavaPlugin implements IScriptLoader {
 
     @Override
     public void onEnable() {
-        register(Debugging.BOTH);
+        register(Debugging.OFF);
     }
 
     @SuppressWarnings("unused")
