@@ -10,18 +10,19 @@ import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.byteskript.skript.compiler.*;
+import org.byteskript.skript.compiler.SkriptCompiler;
 import org.byteskript.skript.runtime.*;
 
 import java.io.InputStream;
 import java.nio.file.*;
 import java.util.*;
-import java.util.logging.Level;
+import java.util.logging.*;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static net.kyori.adventure.text.Component.text;
 
 public final class BytePaper extends JavaPlugin implements IScriptLoader {
+    private final InfoWrapper wrappedLogger = new InfoWrapper(super.getLogger());
 
     private final Path scriptsFolder = getDataFolder().toPath().resolve("scripts");
     private final Path compiledFolder = getDataFolder().toPath().resolve("compiled_scripts");
@@ -35,7 +36,7 @@ public final class BytePaper extends JavaPlugin implements IScriptLoader {
 
     @Override
     public void onEnable() {
-        register(Debugging.OFF);
+        register();
     }
 
     @SuppressWarnings("unused")
@@ -54,12 +55,8 @@ public final class BytePaper extends JavaPlugin implements IScriptLoader {
         unregister();
     }
 
-    public void register(Debugging debug) {
-        SkriptCompiler compiler = debug.compiler() ?
-            new Debugging.Compiler(Stream.controller(new Debugging.Stream(getLogger())))
-            : new SimpleSkriptCompiler();
-
-        if (debug.trace()) System.setProperty("debug_mode", "true");
+    public void register() {
+        SkriptCompiler compiler = new Debugging.Compiler(Stream.controller(new Debugging.Stream(getLogger())));
 
         this.skript = new Skript(compiler);
         this.registrar = new CommandRegistrar(getLogger(), skript);
@@ -110,6 +107,11 @@ public final class BytePaper extends JavaPlugin implements IScriptLoader {
         }
 
         return UI.miniMessage().deserialize(getRaw(langPath), resolvers);
+    }
+
+    @Override
+    public Logger getLogger() {
+        return wrappedLogger;
     }
 
     public void unregister() {
