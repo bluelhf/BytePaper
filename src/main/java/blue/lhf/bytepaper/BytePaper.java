@@ -145,4 +145,8 @@ public final class BytePaper extends JavaPlugin implements IScriptLoader {
 
         return compiledFolder;
     }
+
+    public Script getLanguageScript() {
+        return langScript;
+    }
 }
