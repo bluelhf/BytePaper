@@ -1,7 +1,6 @@
 package blue.lhf.bytepaper.library.syntax.entity;
 
-import mx.kenzie.foundation.MethodBuilder;
-import mx.kenzie.foundation.Type;
+import mx.kenzie.foundation.*;
 import org.bukkit.entity.EntityType;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.syntax.Literal;

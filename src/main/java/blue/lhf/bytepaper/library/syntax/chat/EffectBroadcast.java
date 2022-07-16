@@ -6,9 +6,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.syntax.Effect;
-import org.byteskript.skript.compiler.CompileState;
-import org.byteskript.skript.compiler.Context;
-import org.byteskript.skript.compiler.Pattern;
+import org.byteskript.skript.compiler.*;
 import org.byteskript.skript.lang.element.StandardElements;
 
 import java.util.ArrayList;

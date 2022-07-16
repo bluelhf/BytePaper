@@ -6,7 +6,6 @@
 
 package org.byteskript.skript.lang.syntax.generic;
 
-import blue.lhf.bytepaper.library.syntax.SyntaxUtils;
 import mx.kenzie.foundation.*;
 import org.byteskript.skript.api.HandlerType;
 import org.byteskript.skript.api.Referent;

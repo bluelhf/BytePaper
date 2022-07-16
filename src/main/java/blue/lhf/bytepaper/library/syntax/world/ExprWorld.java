@@ -6,8 +6,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.syntax.SimpleExpression;
-import org.byteskript.skript.compiler.Context;
-import org.byteskript.skript.compiler.Pattern;
+import org.byteskript.skript.compiler.*;
 import org.byteskript.skript.lang.element.StandardElements;
 
 import java.util.UUID;

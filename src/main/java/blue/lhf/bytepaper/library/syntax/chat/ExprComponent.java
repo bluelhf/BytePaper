@@ -9,12 +9,10 @@ import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.syntax.SimpleExpression;
-import org.byteskript.skript.compiler.Context;
-import org.byteskript.skript.compiler.Pattern;
+import org.byteskript.skript.compiler.*;
 import org.byteskript.skript.lang.element.StandardElements;
 
-import static mx.kenzie.foundation.WriteInstruction.invokeInterface;
-import static mx.kenzie.foundation.WriteInstruction.swap;
+import static mx.kenzie.foundation.WriteInstruction.*;
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;
 
 public class ExprComponent extends SimpleExpression {

@@ -8,8 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.syntax.RelationalExpression;
-import org.byteskript.skript.compiler.Context;
-import org.byteskript.skript.compiler.Pattern;
+import org.byteskript.skript.compiler.*;
 import org.byteskript.skript.lang.element.StandardElements;
 
 import static mx.kenzie.foundation.WriteInstruction.*;
