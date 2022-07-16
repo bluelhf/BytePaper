@@ -8,6 +8,8 @@ import java.nio.file.*;
 import java.util.List;
 import java.util.function.Supplier;
 
+import static blue.lhf.bytepaper.commands.arguments.ArgUtils.toFileScript;
+
 public class ArgLoadableScript implements Argument<Path> {
     private final Supplier<Path> root;
     private boolean required = true;
@@ -19,10 +21,7 @@ public class ArgLoadableScript implements Argument<Path> {
 
     @Override
     public @NotNull Path serialise(String s) {
-        Path direct = root.get().resolve(s);
-        if (Files.isRegularFile(direct))
-            return direct;
-        return root.get().resolve(s + ".bsk");
+        return root.get().resolve(toFileScript(s));
     }
 
     @Override
@@ -46,7 +45,7 @@ public class ArgLoadableScript implements Argument<Path> {
             return stream
                 .map(r::relativize)
                 .map(Path::toString)
-                .filter(p -> p.endsWith(".bsk"))
+                .filter(ArgUtils::isValidFileScript)
                 .toList();
         } catch (IOException e) {
             return null;
