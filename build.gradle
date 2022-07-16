@@ -19,7 +19,7 @@ repositories {
 }
 
 group = 'blue.lhf'
-version = '0.2.0'
+version = '0.3.0'
 
 int javaVersion = 17
 String author = "bluelhf"
