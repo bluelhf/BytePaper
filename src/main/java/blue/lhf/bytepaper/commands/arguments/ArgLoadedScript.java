@@ -6,22 +6,27 @@ import org.byteskript.skript.runtime.Script;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.function.Supplier;
+import java.util.function.*;
+
+import static blue.lhf.bytepaper.commands.arguments.ArgUtils.toFileScript;
+import static blue.lhf.bytepaper.commands.arguments.ArgUtils.toInternalScript;
 
 public class ArgLoadedScript implements Argument<Optional<Script>> {
     private final Supplier<IScriptLoader> loader;
+    private final Predicate<Script> filter;
     private boolean required = true;
     private String label = null;
 
-    public ArgLoadedScript(Supplier<IScriptLoader> loaderSupplier) {
+    public ArgLoadedScript(Supplier<IScriptLoader> loaderSupplier, Predicate<Script> filter) {
         this.loader = loaderSupplier;
+        this.filter = filter;
     }
 
     @Override
     public @NotNull Optional<Script> serialise(String s) {
         Script target = null;
         for (Script script : loader.get().getSkript().getScripts()) {
-            if (script.getPath().equals(s))
+            if (script.getPath().equals(toInternalScript(s, false)))
                 target = script;
         }
 
@@ -30,7 +35,7 @@ public class ArgLoadedScript implements Argument<Optional<Script>> {
 
     @Override
     public boolean matches(String s) {
-        return getCompletions().contains(s);
+        return getCompletions().contains(toFileScript(s));
     }
 
     @Override
@@ -40,7 +45,8 @@ public class ArgLoadedScript implements Argument<Optional<Script>> {
 
     @Override
     public @NotNull List<String> getCompletions() {
-        return Arrays.stream(loader.get().getSkript().getScripts()).map(Script::getPath).toList();
+        return Arrays.stream(loader.get().getSkript().getScripts()).filter(filter).map(Script::getPath)
+            .map(ArgUtils::toExternalScript).map(ArgUtils::toFileScript).toList();
     }
 
     @Override

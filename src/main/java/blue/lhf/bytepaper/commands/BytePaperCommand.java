@@ -57,7 +57,9 @@ public class BytePaperCommand extends Commander<CommandSender> implements Comman
                 sender.sendMessage(UI.miniMessage().deserialize(
                     "<info>Successfully unloaded the script!</info>"));
             }
-        }, new ArgLoadedScript(this::getHost).setLabel("script"));
+        }, new ArgLoadedScript(this::getHost,
+            s -> !s.equals(host.getLanguageScript()) // Don't allow unloading the language file
+        ).setLabel("script"));
     }
 
     @Override
