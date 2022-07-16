@@ -98,7 +98,7 @@ public class ExprProperty extends RelationalExpression implements Referent {
     }
 
     @Override
-    public void compile(Context context, Pattern.Match match) throws Throwable {
+    public void compile(Context context, Pattern.Match match) {
         final String name = match.meta();
         final MethodBuilder method = context.getMethod();
         final ElementTree tree = context.getCompileCurrent().nested()[0];
