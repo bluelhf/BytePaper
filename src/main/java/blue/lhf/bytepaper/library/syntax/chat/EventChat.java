@@ -6,9 +6,20 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
-import org.byteskript.skript.api.note.EventValue;
+import org.byteskript.skript.api.note.*;
 import org.byteskript.skript.api.syntax.EventHolder;
 
+@Documentation(
+    name = "Chat",
+    description = "Runs when a player says something in the in-game chat.",
+    examples = {
+        """
+        on player message:
+            trigger:
+                send raw ("You said: " + event-message) to event-player
+        """
+    }
+)
 public class EventChat extends EventHolder {
     public EventChat(Library library) {
         super(library, "on [player] (chat|message)");

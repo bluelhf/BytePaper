@@ -14,7 +14,7 @@ import static mx.kenzie.foundation.WriteInstruction.swap;
 
 @Documentation(
         name = "Send",
-        description = "Sends the given message component to the given audience.\n",
+        description = "Sends the given message component to the given audience.",
         examples = {
                 """
                 on script load:

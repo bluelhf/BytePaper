@@ -5,15 +5,26 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.byteskript.skript.api.Library;
+import org.byteskript.skript.api.note.Documentation;
 import org.byteskript.skript.api.syntax.Effect;
 import org.byteskript.skript.compiler.*;
 import org.byteskript.skript.lang.element.StandardElements;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static mx.kenzie.foundation.WriteInstruction.*;
 
+@Documentation(
+    name = "Broadcast",
+    description = "Sends the given message component to the entire server, that is to say, all players and console.",
+    examples = {
+        """
+        on skript load:
+            trigger:
+                broadcast mini "<rainbow>BytePaper is up and running!</rainbow>"
+        """
+    }
+)
 public class EffectBroadcast extends Effect {
     public EffectBroadcast(Library library) {
         super(library, StandardElements.EFFECT, "broadcast [message] %Object%");

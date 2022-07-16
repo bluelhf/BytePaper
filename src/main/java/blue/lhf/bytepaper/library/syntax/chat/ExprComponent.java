@@ -8,6 +8,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.byteskript.skript.api.Library;
+import org.byteskript.skript.api.note.Documentation;
 import org.byteskript.skript.api.syntax.SimpleExpression;
 import org.byteskript.skript.compiler.*;
 import org.byteskript.skript.lang.element.StandardElements;
@@ -15,6 +16,25 @@ import org.byteskript.skript.lang.element.StandardElements;
 import static mx.kenzie.foundation.WriteInstruction.*;
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;
 
+@SuppressWarnings("UnnecessaryStringEscape")
+@Documentation(
+    name = "Component",
+    description = "Deserialises a formatted message from a string",
+    examples = {
+        """
+        broadcast raw "<rainbow>This text will not be rainbow; the MiniMessage tags aren't parsed</rainbow>"
+        """,
+        """
+        broadcast mini "<rainbow>This text will be rainbow; the MiniMessage tags are parsed</rainbow>"
+        """,
+        """
+        broadcast legacy "&aThis text will be bright green, because it is parsed using the ampersand legacy serializer!"
+        """,
+        """
+        broadcast json "{\"text\":\"This is a complicated, internal JSON format for messages\",\"color\":\"bright_magenta\"}"
+        """
+    }
+)
 public class ExprComponent extends SimpleExpression {
     public ExprComponent(Library library) {
         super(library, StandardElements.EXPRESSION, "(raw|mini|legacy|json) [component] [from] %Object%");

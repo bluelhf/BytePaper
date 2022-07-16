@@ -4,6 +4,7 @@ import blue.lhf.bytepaper.library.BytePaperFlag;
 import mx.kenzie.foundation.Type;
 import org.bukkit.command.CommandSender;
 import org.byteskript.skript.api.Library;
+import org.byteskript.skript.api.note.Documentation;
 import org.byteskript.skript.api.syntax.SimpleExpression;
 import org.byteskript.skript.compiler.*;
 import org.byteskript.skript.error.ScriptParseError;
@@ -11,6 +12,17 @@ import org.byteskript.skript.lang.element.StandardElements;
 
 import static mx.kenzie.foundation.WriteInstruction.load;
 
+@Documentation(
+    name = "Executor",
+    description = "Represents the person or thing that executed the command",
+    examples = {
+        """
+        command /whoami:
+            trigger:
+                send raw (getName() of executor) to executor
+        """
+    }
+)
 public class ExprExecutor extends SimpleExpression {
     public ExprExecutor(Library library) {
         super(library, StandardElements.EXPRESSION, "[the] [command] (executor|sender)");

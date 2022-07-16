@@ -6,9 +6,14 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
-import org.byteskript.skript.api.note.EventValue;
+import org.byteskript.skript.api.note.*;
 import org.byteskript.skript.api.syntax.EventHolder;
 
+@Documentation(
+    name = "Block Place",
+    description = "Run when a player places a block.",
+    examples = {"on block place:\n    trigger:\n        send \"You've placed a block!\" to event-player\n"}
+)
 public class EventBlockPlace extends EventHolder {
 
     public EventBlockPlace(Library provider) {
