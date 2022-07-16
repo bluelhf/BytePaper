@@ -6,12 +6,13 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.function.*;
 
 import static blue.lhf.bytepaper.util.UI.Colour.wrap;
 import static net.kyori.adventure.text.Component.*;
 
+@SuppressWarnings("unused")
 public class UI {
     public static final Palette PALETTE = new Palette(
         wrap(new Color(0xF8F0FB)), // use Color constructor for preview
@@ -60,6 +61,7 @@ public class UI {
         return RAW;
     }
 
+    @SuppressWarnings("SameReturnValue")
     public static MiniMessage miniMessage() {
         return MSG;
     }

@@ -31,7 +31,7 @@ public class ExprExecutor extends SimpleExpression {
     }
 
     @Override
-    public void compile(Context context, Pattern.Match match) throws Throwable {
+    public void compile(Context context, Pattern.Match match) {
         context.getMethod().writeCode(
             load(new Type(CommandSender.class), 0)
         );

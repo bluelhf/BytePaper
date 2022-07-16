@@ -11,6 +11,7 @@ import org.jetbrains.annotations.*;
 import java.nio.file.Path;
 import java.util.*;
 
+@SuppressWarnings("CodeBlock2Expr")
 public class BytePaperCommand extends Commander<CommandSender> implements CommandExecutor, TabCompleter {
     private final BytePaper host;
 

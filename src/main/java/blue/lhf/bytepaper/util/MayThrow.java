@@ -1,5 +1,6 @@
 package blue.lhf.bytepaper.util;
 
+@SuppressWarnings("unused")
 public class MayThrow {
 
     public static class Threw extends RuntimeException {

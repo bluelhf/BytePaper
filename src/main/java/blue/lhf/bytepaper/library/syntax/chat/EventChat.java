@@ -19,6 +19,7 @@ public class EventChat extends EventHolder {
         return EventChat.Data.class;
     }
 
+    @SuppressWarnings("unused")
     public static class Data extends Event {
         protected final AsyncChatEvent event;
 

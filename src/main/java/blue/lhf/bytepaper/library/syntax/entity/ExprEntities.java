@@ -11,8 +11,6 @@ import org.byteskript.skript.api.syntax.SimpleExpression;
 import org.byteskript.skript.lang.element.StandardElements;
 import org.byteskript.skript.lang.handler.StandardHandlers;
 
-import java.util.concurrent.CompletableFuture;
-
 public class ExprEntities extends SimpleExpression {
     public ExprEntities(Library library) {
         // The pattern order is important, because types compile to <.+>, which breaks optionals that follow
@@ -25,6 +23,7 @@ public class ExprEntities extends SimpleExpression {
         return new Type(Entity[].class);
     }
 
+    @SuppressWarnings("unused")
     public static Entity[] getEntities(EntityType type) {
         Class<? extends Entity> typeClass = type.getEntityClass();
 

@@ -23,6 +23,7 @@ import java.util.regex.Matcher;
  * This handles all properties and delegates the compilation
  * to the expression stubs.
  */
+@SuppressWarnings("ALL")
 @Documentation(
         name = "Property",
         description = """

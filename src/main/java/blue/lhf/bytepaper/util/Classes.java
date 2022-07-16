@@ -4,6 +4,7 @@ import java.util.*;
 
 import static java.util.Collections.singleton;
 
+@SuppressWarnings("unused")
 public class Classes {
     private Classes() {
 

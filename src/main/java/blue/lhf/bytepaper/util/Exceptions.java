@@ -79,7 +79,7 @@ public class Exceptions {
             } else {
                 audience.sendMessage(UI.miniMessage().deserialize("""
                     <info>An exception occurred while %s!</info>
-                    <error>                       
+                    <error>
                     %s
                                             
                     Stack trace:

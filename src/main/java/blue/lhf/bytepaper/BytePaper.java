@@ -38,10 +38,12 @@ public final class BytePaper extends JavaPlugin implements IScriptLoader {
         register(Debugging.BOTH);
     }
 
+    @SuppressWarnings("unused")
     public Skript getSkript() {
         return skript;
     }
 
+    @SuppressWarnings("unused")
     @Override
     public CommandRegistrar getRegistrar() {
         return registrar;

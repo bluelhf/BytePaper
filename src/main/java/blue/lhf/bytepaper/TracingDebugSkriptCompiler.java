@@ -8,6 +8,7 @@ import org.byteskript.skript.compiler.*;
 
 import java.io.*;
 
+@SuppressWarnings("unused")
 public class TracingDebugSkriptCompiler extends DebugSkriptCompiler {
     private final OutputStreamController controller;
 

@@ -24,28 +24,12 @@ public enum Debugging {
         return this == TRACE_ONLY || this == BOTH;
     }
 
-    public static class Controller extends OutputStreamController {
-
-        public Controller(OutputStream stream) {
-            super(stream);
-        }
-
-        @Override
-        public void flush() throws IOException {
-            stream.flush();
-        }
-    }
-
     public static class Stream extends OutputStream {
         protected final StringBuilder buffer = new StringBuilder(32);
         protected final Logger logger;
 
         public Stream(Logger logger) {
             this.logger = logger;
-        }
-
-        public Logger getLogger() {
-            return logger;
         }
 
         @Override

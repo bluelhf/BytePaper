@@ -21,6 +21,7 @@ import static java.util.Comparator.comparing;
 /**
  * Provides an interface for BytePaper load/unload mechanisms
  */
+@SuppressWarnings("unused")
 public interface IScriptLoader {
     Skript getSkript();
 

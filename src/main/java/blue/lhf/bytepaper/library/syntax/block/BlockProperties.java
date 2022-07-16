@@ -8,10 +8,14 @@ import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.byteskript.skript.lang.handler.StandardHandlers;
 
+@SuppressWarnings("unused")
 @PropertyHolder(owner = Block.class, implicit = true)
 public class BlockProperties {
+    private BlockProperties() {}
+
     @Property(name = "data", type = BlockData.class)
     public static class PropData {
+        private PropData() {}
         @PropertyActor(StandardHandlers.GET)
         public static BlockData get(Block block) {
             return Threading.forceMain(block::getBlockData);

@@ -23,6 +23,7 @@ public class EventPlayerInteract extends EventHolder {
         return Data.class;
     }
 
+    @SuppressWarnings("unused")
     public static class Data extends Event {
         protected final PlayerInteractEvent event;
 

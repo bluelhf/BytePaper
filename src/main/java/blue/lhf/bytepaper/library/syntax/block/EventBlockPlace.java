@@ -20,6 +20,7 @@ public class EventBlockPlace extends EventHolder {
         return EventBlockPlace.Data.class;
     }
 
+    @SuppressWarnings("unused")
     public static class Data extends Event {
         protected final BlockPlaceEvent event;
 
