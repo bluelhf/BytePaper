@@ -10,7 +10,7 @@ import org.byteskript.skript.lang.element.StandardElements;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static mx.kenzie.foundation.WriteInstruction.loadConstant;
+import static mx.kenzie.foundation.WriteInstruction.getStaticField;
 
 public class LiteralEntityType extends Literal<EntityType> {
 
@@ -38,20 +38,16 @@ public class LiteralEntityType extends Literal<EntityType> {
         return new Type(EntityType.class);
     }
 
-    public void compile(Context context, Pattern.Match match) throws Throwable {
+    public void compile(Context context, Pattern.Match match) {
         String string = match.matcher().group();
 
         assert string.length() > 1;
 
         MethodBuilder method = context.getMethod();
-
-        method.writeCode(loadConstant(string));
-        writeCall(method, findMethod(getClass(), "fromString", String.class), context);
+        EntityType type = parse(string);
+        method.writeCode(getStaticField(new Type(type.getDeclaringClass()), new FieldErasure(type.getDeclaringClass(), type.name())));
     }
 
-    public static EntityType fromString(String s) {
-        return parseMap.get(s);
-    }
 
     @Override
     public EntityType parse(String s) {
