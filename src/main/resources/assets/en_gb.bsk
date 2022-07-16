@@ -2,3 +2,7 @@ function get(path):
   trigger:
     if {path} is "commands.bytepaper.load.success":
       return "<info>Successfully loaded <primary><script></primary> in <primary><time> ms</primary>!</info>"
+    else if {path} is "commands.bytepaper.unload.success":
+      return "<info>Successfully unloaded <primary><script></primary> in <primary><time> ms</primary>!</info>"
+    else if {path} is "commands.bytepaper.unload.not_loaded":
+      return "<error>A script with that path isn't loaded!</error>"
