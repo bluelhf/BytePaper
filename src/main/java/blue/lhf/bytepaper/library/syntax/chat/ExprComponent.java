@@ -39,7 +39,8 @@ public class ExprComponent extends SimpleExpression {
                             true
                     ));
             case "mini" -> {
-                writeCall(builder, findMethod(UI.class, "miniMessage"), context);
+                builder.writeCode(push(false));
+                writeCall(builder, findMethod(UI.class, "miniMessage", boolean.class), context);
                 builder.writeCode(swap());
                 builder.writeCode(invokeInterface(findMethod(MiniMessage.class, "deserialize", Object.class)));
             }
