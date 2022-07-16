@@ -10,6 +10,7 @@ import org.jetbrains.annotations.*;
 
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 @SuppressWarnings("CodeBlock2Expr")
 public class BytePaperCommand extends Commander<CommandSender> implements CommandExecutor, TabCompleter {
@@ -48,15 +49,20 @@ public class BytePaperCommand extends Commander<CommandSender> implements Comman
             //noinspection unchecked - we know
             Optional<Script> targetPath = (Optional<Script>) input[0];
             if (targetPath.isEmpty()) {
-                sender.sendMessage(UI.miniMessage().deserialize(
-                    "<error>A script with that path isn't loaded!</error>"));
+                sender.sendMessage(host.getComponent("commands.bytepaper.unload.not_loaded", Map.of()));
                 return;
             }
 
+            Script script = targetPath.get();
+            String scriptName = ArgUtils.toExternalScript(script.getPath(), true);
+
+            long start = System.nanoTime();
+
             if (Exceptions.trying(sender, "unloading the script",
-                (MayThrow.Runnable) () -> host.unloadScript(targetPath.get()))) {
-                sender.sendMessage(UI.miniMessage().deserialize(
-                    "<info>Successfully unloaded the script!</info>"));
+                (MayThrow.Runnable) () -> host.unloadScript(script))) {
+                sender.sendMessage(host.getComponent("commands.bytepaper.unload.success",
+                    Map.of("time", "%.2f".formatted((System.nanoTime() - start) / 1E6),
+                        "script", scriptName)));
             }
         }, new ArgLoadedScript(this::getHost,
             s -> !s.equals(host.getLanguageScript()) // Don't allow unloading the language file
