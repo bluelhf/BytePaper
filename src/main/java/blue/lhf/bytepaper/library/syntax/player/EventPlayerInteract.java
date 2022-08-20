@@ -10,9 +10,21 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
+import org.byteskript.skript.api.note.Documentation;
 import org.byteskript.skript.api.note.EventValue;
 import org.byteskript.skript.api.syntax.EventHolder;
 
+@Documentation(
+        name = "Player Interact",
+        description = "Run when a player interacts",
+        examples = {
+                """
+                on player interact:
+                    trigger:
+                        send "You've interacted with the world!" to event-player"
+                """
+        }
+)
 public class EventPlayerInteract extends EventHolder {
     public EventPlayerInteract(Library provider) {
         super(provider, "on player interact");
