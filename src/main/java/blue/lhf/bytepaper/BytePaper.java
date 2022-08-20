@@ -76,6 +76,8 @@ public final class BytePaper extends JavaPlugin implements IScriptLoader {
             return;
         }
 
+        obtainScriptsFolder();
+
         if (!Exceptions.trying(getLogger(), Level.SEVERE, "loading the language script", (MayThrow.Runnable) () -> {
             Path langPath = obtainLanguageFolder().resolve("en_gb.bsk");
             if (Files.notExists(langPath)) {
@@ -143,7 +145,6 @@ public final class BytePaper extends JavaPlugin implements IScriptLoader {
             Exceptions.trying(Bukkit.getConsoleSender(), "creating the compiled scripts folder",
                 (MayThrow.Runnable) () -> Files.createDirectories(compiledFolder));
         }
-
 
         return compiledFolder;
     }
