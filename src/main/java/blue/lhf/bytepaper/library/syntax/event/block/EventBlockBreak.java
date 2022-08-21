@@ -1,8 +1,10 @@
 package blue.lhf.bytepaper.library.syntax.event.block;
 
+import blue.lhf.bytepaper.util.EventMapsTo;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.note.Documentation;
@@ -20,6 +22,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
             """
     }
 )
+@EventMapsTo(BlockBreakEvent.class)
 public class EventBlockBreak extends EventHolder {
 
     public EventBlockBreak(Library provider) {

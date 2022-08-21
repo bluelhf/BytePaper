@@ -1,7 +1,8 @@
 package blue.lhf.bytepaper.library.syntax.event.player;
 
+import blue.lhf.bytepaper.util.EventMapsTo;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerLocaleChangeEvent;
+import org.bukkit.event.player.*;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.note.Documentation;
@@ -21,6 +22,7 @@ import java.util.Locale;
                 """
         }
 )
+@EventMapsTo(PlayerLocaleChangeEvent.class)
 public class EventPlayerLocaleChange extends EventHolder {
 
     public EventPlayerLocaleChange(Library provider) {

@@ -1,5 +1,6 @@
 package blue.lhf.bytepaper.library.syntax.event.player;
 
+import blue.lhf.bytepaper.util.EventMapsTo;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
@@ -20,6 +21,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
         }
 )
+@EventMapsTo(PlayerAdvancementDoneEvent.class)
 public class EventPlayerAdvancementDone extends EventHolder {
 
     public EventPlayerAdvancementDone(Library provider) {

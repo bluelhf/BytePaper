@@ -1,7 +1,8 @@
 package blue.lhf.bytepaper.library.syntax.event.player;
 
+import blue.lhf.bytepaper.util.EventMapsTo;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerEditBookEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.meta.BookMeta;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
@@ -20,6 +21,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
         }
 )
+@EventMapsTo(PlayerEditBookEvent.class)
 public class EventPlayerEditBook extends EventHolder {
 
     public EventPlayerEditBook(Library provider) {

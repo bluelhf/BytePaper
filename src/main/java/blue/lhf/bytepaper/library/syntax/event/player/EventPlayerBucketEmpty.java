@@ -1,10 +1,11 @@
 package blue.lhf.bytepaper.library.syntax.event.player;
 
+import blue.lhf.bytepaper.util.EventMapsTo;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.byteskript.skript.api.Event;
@@ -24,6 +25,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
         }
 )
+@EventMapsTo(PlayerBucketEmptyEvent.class)
 public class EventPlayerBucketEmpty extends EventHolder {
 
     public EventPlayerBucketEmpty(Library provider) {

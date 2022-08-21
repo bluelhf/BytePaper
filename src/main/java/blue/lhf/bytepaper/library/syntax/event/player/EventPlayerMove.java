@@ -1,8 +1,9 @@
 package blue.lhf.bytepaper.library.syntax.event.player;
 
+import blue.lhf.bytepaper.util.EventMapsTo;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.*;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.note.Documentation;
@@ -20,6 +21,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
         }
 )
+@EventMapsTo(PlayerMoveEvent.class)
 public class EventPlayerMove extends EventHolder {
     public EventPlayerMove(Library provider) {
         super(provider, "on [player] move");

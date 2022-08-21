@@ -1,8 +1,9 @@
 package blue.lhf.bytepaper.library.syntax.event.player;
 
+import blue.lhf.bytepaper.util.EventMapsTo;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
@@ -21,6 +22,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
         }
 )
+@EventMapsTo(PlayerInteractEntityEvent.class)
 public class EventPlayerInteractEntity extends EventHolder {
 
     public EventPlayerInteractEntity(Library provider) {

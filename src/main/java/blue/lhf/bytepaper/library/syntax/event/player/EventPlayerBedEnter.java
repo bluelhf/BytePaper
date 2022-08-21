@@ -1,8 +1,9 @@
 package blue.lhf.bytepaper.library.syntax.event.player;
 
+import blue.lhf.bytepaper.util.EventMapsTo;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerBedEnterEvent;
+import org.bukkit.event.player.*;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.note.Documentation;
@@ -20,6 +21,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
         }
 )
+@EventMapsTo(PlayerBedEnterEvent.class)
 public class EventPlayerBedEnter extends EventHolder {
 
     public EventPlayerBedEnter(Library provider) {

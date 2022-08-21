@@ -1,10 +1,11 @@
 package blue.lhf.bytepaper.library.syntax.event.player;
 
+import blue.lhf.bytepaper.util.EventMapsTo;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerStatisticIncrementEvent;
+import org.bukkit.event.player.*;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.note.Documentation;
@@ -22,6 +23,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
         }
 )
+@EventMapsTo(PlayerStatisticIncrementEvent.class)
 public class EventPlayerStatisticIncrement extends EventHolder {
 
     public EventPlayerStatisticIncrement(Library provider) {
