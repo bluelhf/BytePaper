@@ -1,7 +1,8 @@
 package blue.lhf.bytepaper.library.syntax.event.player;
 
+import blue.lhf.bytepaper.util.EventMapsTo;
 import com.destroystokyo.paper.profile.PlayerProfile;
-import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.*;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.note.Documentation;
@@ -22,6 +23,7 @@ import java.util.UUID;
                 """
         }
 )
+@EventMapsTo(AsyncPlayerPreLoginEvent.class)
 public class EventPlayerAsyncPreLogin extends EventHolder {
 
     public EventPlayerAsyncPreLogin(Library provider) {

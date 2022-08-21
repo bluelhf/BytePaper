@@ -1,9 +1,10 @@
 package blue.lhf.bytepaper.library.syntax.event.player;
 
+import blue.lhf.bytepaper.util.EventMapsTo;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerRecipeDiscoverEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.Recipe;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
@@ -22,6 +23,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
         }
 )
+@EventMapsTo(PlayerRecipeDiscoverEvent.class)
 public class EventPlayerRecipeDiscover extends EventHolder {
 
     public EventPlayerRecipeDiscover(Library provider) {

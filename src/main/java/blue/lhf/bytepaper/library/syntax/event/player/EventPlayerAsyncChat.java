@@ -1,9 +1,11 @@
 package blue.lhf.bytepaper.library.syntax.event.player;
 
+import blue.lhf.bytepaper.util.EventMapsTo;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.note.*;
@@ -20,6 +22,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
         """
     }
 )
+@EventMapsTo(AsyncChatEvent.class)
 public class EventPlayerAsyncChat extends EventHolder {
     public EventPlayerAsyncChat(Library library) {
         super(library, "on [player] (chat|message)");
