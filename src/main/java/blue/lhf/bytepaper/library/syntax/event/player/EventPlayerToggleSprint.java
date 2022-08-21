@@ -1,8 +1,7 @@
-package blue.lhf.bytepaper.library.syntax.player;
+package blue.lhf.bytepaper.library.syntax.event.player;
 
-import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.note.Documentation;
@@ -10,32 +9,31 @@ import org.byteskript.skript.api.note.EventValue;
 import org.byteskript.skript.api.syntax.EventHolder;
 
 @Documentation(
-        name = "Player Changed World",
-        description = "Run when a player changes worlds.",
+        name = "Player Toggle Sprint",
+        description = "Run when a player toggles sprint.",
         examples = {
                 """
-                on player changed world:
+                on player toggle sprint:
                     trigger:
-                        send "You've changed your world" to event-player"
+                        send "You toggled sneak!" to event-player"
                 """
         }
 )
-public class EventPlayerChangedWorld extends EventHolder {
-
-    public EventPlayerChangedWorld(Library provider) {
-        super(provider, "on [player] world changed");
+public class EventPlayerToggleSprint extends EventHolder {
+    public EventPlayerToggleSprint(Library provider) {
+        super(provider, "on [player] sprint [toggle]");
     }
 
     @Override
     public Class<? extends Event> eventClass() {
-        return EventPlayerChangedWorld.Data.class;
+        return Data.class;
     }
 
     @SuppressWarnings("unused")
     public static class Data extends Event {
-        protected final PlayerChangedWorldEvent event;
+        protected final PlayerToggleSprintEvent event;
 
-        public Data(PlayerChangedWorldEvent event) {
+        public Data(PlayerToggleSprintEvent event) {
             this.event = event;
         }
 
@@ -49,11 +47,5 @@ public class EventPlayerChangedWorld extends EventHolder {
             return event.getPlayer();
         }
 
-        @EventValue("from")
-        public World from() {
-            return event.getFrom();
-        }
-
     }
-
 }

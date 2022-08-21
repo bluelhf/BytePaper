@@ -1,8 +1,8 @@
-package blue.lhf.bytepaper.library.syntax.player;
+package blue.lhf.bytepaper.library.syntax.event.player;
 
-import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
+import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.byteskript.skript.api.Event;
@@ -12,32 +12,31 @@ import org.byteskript.skript.api.note.EventValue;
 import org.byteskript.skript.api.syntax.EventHolder;
 
 @Documentation(
-        name = "Player Armor Stand Manipulate",
-        description = "Run when a player manipulates an armor stand.",
+        name = "Player Shear Entity",
+        description = "Run when a player shears an entity.",
         examples = {
                 """
-                on armor stand manipulate:
+                on player shear entity:
                     trigger:
-                        send "You've manipulated an armor stand!" to event-player"
+                        send "You sheared an entity!" to event-player"
                 """
         }
 )
-public class EventPlayerArmorStandManipulate extends EventHolder {
-
-    public EventPlayerArmorStandManipulate(Library provider) {
-        super(provider, "on armor[ ]stand manipulate");
+public class EventPlayerShearEntity extends EventHolder {
+    public EventPlayerShearEntity(Library provider) {
+        super(provider, "on [player] shear[ing] [entity]");
     }
 
     @Override
     public Class<? extends Event> eventClass() {
-        return EventPlayerArmorStandManipulate.Data.class;
+        return EventPlayerShearEntity.Data.class;
     }
 
     @SuppressWarnings("unused")
     public static class Data extends Event {
-        protected final PlayerArmorStandManipulateEvent event;
+        protected final PlayerShearEntityEvent event;
 
-        public Data(PlayerArmorStandManipulateEvent event) {
+        public Data(PlayerShearEntityEvent event) {
             this.event = event;
         }
 
@@ -57,18 +56,13 @@ public class EventPlayerArmorStandManipulate extends EventHolder {
         }
 
         @EventValue("entity")
-        public ArmorStand entity() {
-            return event.getRightClicked();
-        }
-
-        @EventValue("armorstand-item")
-        public ItemStack armorstandItem() {
-            return event.getArmorStandItem();
+        public Entity entity() {
+            return event.getEntity();
         }
 
         @EventValue("item")
         public ItemStack item() {
-            return event.getPlayerItem();
+            return event.getItem();
         }
 
     }

@@ -1,4 +1,4 @@
-package blue.lhf.bytepaper.library.syntax.player;
+package blue.lhf.bytepaper.library.syntax.event.player;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;

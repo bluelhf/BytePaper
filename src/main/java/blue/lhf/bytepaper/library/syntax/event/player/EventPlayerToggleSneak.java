@@ -1,8 +1,7 @@
-package blue.lhf.bytepaper.library.syntax.player;
+package blue.lhf.bytepaper.library.syntax.event.player;
 
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerBedLeaveEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.note.Documentation;
@@ -10,32 +9,31 @@ import org.byteskript.skript.api.note.EventValue;
 import org.byteskript.skript.api.syntax.EventHolder;
 
 @Documentation(
-        name = "Player Bed Leave",
-        description = "Run when a player leaves a bed.",
+        name = "Player Toggle Sneak",
+        description = "Run when a player toggles sneak.",
         examples = {
                 """
-                on player bed leave:
+                on player toggle sneak:
                     trigger:
-                        send "You've left a bed!" to event-player"
+                        send "You toggled sneak!" to event-player"
                 """
         }
 )
-public class EventPlayerBedExit extends EventHolder {
-
-    public EventPlayerBedExit(Library provider) {
-        super(provider, "on [player] bed leave");
+public class EventPlayerToggleSneak extends EventHolder {
+    public EventPlayerToggleSneak(Library provider) {
+        super(provider, "on [player] sneak [toggle]");
     }
 
     @Override
     public Class<? extends Event> eventClass() {
-        return EventPlayerBedExit.Data.class;
+        return Data.class;
     }
 
     @SuppressWarnings("unused")
     public static class Data extends Event {
-        protected final PlayerBedLeaveEvent event;
+        protected final PlayerToggleSneakEvent event;
 
-        public Data(PlayerBedLeaveEvent event) {
+        public Data(PlayerToggleSneakEvent event) {
             this.event = event;
         }
 
@@ -49,11 +47,5 @@ public class EventPlayerBedExit extends EventHolder {
             return event.getPlayer();
         }
 
-        @EventValue("block")
-        public Block block() {
-            return event.getBed();
-        }
-
     }
-
 }

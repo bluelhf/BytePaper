@@ -1,10 +1,10 @@
-package blue.lhf.bytepaper.library.syntax.player;
+package blue.lhf.bytepaper.library.syntax.event.player;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.byteskript.skript.api.Event;
@@ -14,32 +14,32 @@ import org.byteskript.skript.api.note.EventValue;
 import org.byteskript.skript.api.syntax.EventHolder;
 
 @Documentation(
-        name = "Player Bucket Empty",
-        description = "Run when a player empties a bucket",
+        name = "Player Bucket Fill",
+        description = "Run when a player fills a bucket",
         examples = {
                 """
-                on player bucket empty:
+                on player bucket fill:
                     trigger:
-                        send "You've empties your bucket!" to event-player"
+                        send "You've filled your bucket!" to event-player"
                 """
         }
 )
-public class EventPlayerBucketEmpty extends EventHolder {
+public class EventPlayerBucketFill extends EventHolder {
 
-    public EventPlayerBucketEmpty(Library provider) {
-        super(provider, "on [player] bucket empty");
+    public EventPlayerBucketFill(Library provider) {
+        super(provider, "on [player] bucket fill");
     }
 
     @Override
     public Class<? extends Event> eventClass() {
-        return EventPlayerBucketEmpty.Data.class;
+        return EventPlayerBucketFill.Data.class;
     }
 
     @SuppressWarnings("unused")
     public static class Data extends Event {
-        protected final PlayerBucketEmptyEvent event;
+        protected final PlayerBucketFillEvent event;
 
-        public Data(PlayerBucketEmptyEvent event) {
+        public Data(PlayerBucketFillEvent event) {
             this.event = event;
         }
 

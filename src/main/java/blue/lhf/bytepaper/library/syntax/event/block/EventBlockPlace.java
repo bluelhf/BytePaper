@@ -1,4 +1,4 @@
-package blue.lhf.bytepaper.library.syntax.block;
+package blue.lhf.bytepaper.library.syntax.event.block;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -6,13 +6,20 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
-import org.byteskript.skript.api.note.*;
+import org.byteskript.skript.api.note.Documentation;
+import org.byteskript.skript.api.note.EventValue;
 import org.byteskript.skript.api.syntax.EventHolder;
 
 @Documentation(
-    name = "Block Place",
-    description = "Run when a player places a block.",
-    examples = {"on block place:\n    trigger:\n        send \"You've placed a block!\" to event-player\n"}
+        name = "Block Place",
+        description = "Run when a player places a block.",
+        examples = {
+                """
+                on block place:
+                    trigger:
+                        send "You've placed a block!" to event-player"
+                """
+        }
 )
 public class EventBlockPlace extends EventHolder {
 
