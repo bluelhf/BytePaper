@@ -1,8 +1,8 @@
-package blue.lhf.bytepaper.library.syntax.player;
+package blue.lhf.bytepaper.library.syntax.event.player;
 
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerEditBookEvent;
+import org.bukkit.inventory.meta.BookMeta;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.note.Documentation;
@@ -10,32 +10,32 @@ import org.byteskript.skript.api.note.EventValue;
 import org.byteskript.skript.api.syntax.EventHolder;
 
 @Documentation(
-        name = "Player Drop Item",
+        name = "Player Edit Book",
         description = "Run when a player drops an item",
         examples = {
                 """
-                on player drop item:
+                on player edit book:
                     trigger:
-                        send "You dropped an item!" to event-player"
+                        send "You edited a book!" to event-player"
                 """
         }
 )
-public class EventPlayerDropItem extends EventHolder {
+public class EventPlayerEditBook extends EventHolder {
 
-    public EventPlayerDropItem(Library provider) {
-        super(provider, "on [player] drop item");
+    public EventPlayerEditBook(Library provider) {
+        super(provider, "on [player] edit book");
     }
 
     @Override
     public Class<? extends Event> eventClass() {
-        return EventPlayerDropItem.Data.class;
+        return EventPlayerEditBook.Data.class;
     }
 
     @SuppressWarnings("unused")
     public static class Data extends Event {
-        protected final PlayerDropItemEvent event;
+        protected final PlayerEditBookEvent event;
 
-        public Data(PlayerDropItemEvent event) {
+        public Data(PlayerEditBookEvent event) {
             this.event = event;
         }
 
@@ -49,9 +49,14 @@ public class EventPlayerDropItem extends EventHolder {
             return event.getPlayer();
         }
 
-        @EventValue("item")
-        public Item item() {
-            return event.getItemDrop();
+        @EventValue("previous-meta")
+        public BookMeta previousMeta() {
+            return event.getPreviousBookMeta();
+        }
+
+        @EventValue("new-meta")
+        public BookMeta newMeta() {
+            return event.getNewBookMeta();
         }
 
     }

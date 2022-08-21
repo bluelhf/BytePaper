@@ -1,4 +1,4 @@
-package blue.lhf.bytepaper.library.syntax.player;
+package blue.lhf.bytepaper.library.syntax.event.player;
 
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.EntityType;

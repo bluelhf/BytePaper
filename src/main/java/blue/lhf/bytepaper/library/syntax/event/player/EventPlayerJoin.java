@@ -1,4 +1,4 @@
-package blue.lhf.bytepaper.library.syntax.player;
+package blue.lhf.bytepaper.library.syntax.event.player;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;

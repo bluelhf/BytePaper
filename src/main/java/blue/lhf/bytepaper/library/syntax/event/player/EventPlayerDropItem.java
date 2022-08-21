@@ -1,8 +1,8 @@
-package blue.lhf.bytepaper.library.syntax.player;
+package blue.lhf.bytepaper.library.syntax.event.player;
 
-import net.kyori.adventure.text.Component;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.note.Documentation;
@@ -10,32 +10,32 @@ import org.byteskript.skript.api.note.EventValue;
 import org.byteskript.skript.api.syntax.EventHolder;
 
 @Documentation(
-        name = "Player Quit",
-        description = "Run when a player quit the server.",
+        name = "Player Drop Item",
+        description = "Run when a player drops an item",
         examples = {
                 """
-                on player quit:
+                on player drop item:
                     trigger:
-                        send "You left the server!" to event-player"
+                        send "You dropped an item!" to event-player"
                 """
         }
 )
-public class EventPlayerQuit extends EventHolder {
+public class EventPlayerDropItem extends EventHolder {
 
-    public EventPlayerQuit(Library provider) {
-        super(provider, "on [player] quit");
+    public EventPlayerDropItem(Library provider) {
+        super(provider, "on [player] drop item");
     }
 
     @Override
     public Class<? extends Event> eventClass() {
-        return EventPlayerQuit.Data.class;
+        return EventPlayerDropItem.Data.class;
     }
 
     @SuppressWarnings("unused")
     public static class Data extends Event {
-        protected final PlayerQuitEvent event;
+        protected final PlayerDropItemEvent event;
 
-        public Data(PlayerQuitEvent event) {
+        public Data(PlayerDropItemEvent event) {
             this.event = event;
         }
 
@@ -49,10 +49,9 @@ public class EventPlayerQuit extends EventHolder {
             return event.getPlayer();
         }
 
-        // TODO : add a way to set quit message
-        @EventValue("message")
-        public Component quitMessage() {
-            return event.quitMessage();
+        @EventValue("item")
+        public Item item() {
+            return event.getItemDrop();
         }
 
     }
