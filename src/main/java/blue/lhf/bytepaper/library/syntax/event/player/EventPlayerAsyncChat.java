@@ -1,4 +1,4 @@
-package blue.lhf.bytepaper.library.syntax.chat;
+package blue.lhf.bytepaper.library.syntax.event.player;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.audience.Audience;
@@ -10,7 +10,7 @@ import org.byteskript.skript.api.note.*;
 import org.byteskript.skript.api.syntax.EventHolder;
 
 @Documentation(
-    name = "Chat",
+    name = "Player Chat",
     description = "Runs when a player says something in the in-game chat.",
     examples = {
         """
@@ -20,14 +20,14 @@ import org.byteskript.skript.api.syntax.EventHolder;
         """
     }
 )
-public class EventChat extends EventHolder {
-    public EventChat(Library library) {
+public class EventPlayerAsyncChat extends EventHolder {
+    public EventPlayerAsyncChat(Library library) {
         super(library, "on [player] (chat|message)");
     }
 
     @Override
     public Class<? extends Event> eventClass() {
-        return EventChat.Data.class;
+        return EventPlayerAsyncChat.Data.class;
     }
 
     @SuppressWarnings("unused")
@@ -48,7 +48,7 @@ public class EventChat extends EventHolder {
             return event.message();
         }
 
-        @EventValue("original message")
+        @EventValue("original-message")
         public Component originalMessage() {
             return event.originalMessage();
         }
