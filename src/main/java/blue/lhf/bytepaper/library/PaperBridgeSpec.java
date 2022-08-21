@@ -27,6 +27,9 @@ import blue.lhf.bytepaper.util.property.PropertyRegistrar;
 import mx.kenzie.mirror.Mirror;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.core.filter.DenyAllFilter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -42,10 +45,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
 import org.byteskript.skript.compiler.CompileState;
 import org.byteskript.skript.runtime.Skript;
 import org.reflections.Reflections;
-import org.slf4j.Logger;
-import sun.misc.Unsafe;
 
-import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -203,7 +203,7 @@ public class PaperBridgeSpec extends ModifiableLibrary {
     }
 
     private Set<Class<? extends Event>> getEventClasses() {
-        Reflections[] eventPackages = { new Reflections("org.bukkit"), new Reflections("com.destroystokyo.paper") };
+        final Reflections[] eventPackages = { new Reflections("org.bukkit"), new Reflections("com.destroystokyo.paper") };
         final Set<Class<? extends Event>> eventClasses = new HashSet<>();
         for (Reflections reflect : eventPackages) {
             eventClasses.addAll(
@@ -218,18 +218,8 @@ public class PaperBridgeSpec extends ModifiableLibrary {
     }
 
     private void removeReflectionsLogger() {
-        try {
-            final Field unsafeField = Unsafe.class.getDeclaredField("theUnsafe");
-            unsafeField.setAccessible(true);
-            final Unsafe unsafe = (Unsafe) unsafeField.get(null);
-            final Logger unsued = Reflections.log; // For some reason, if Reflections.log is not called, the field is not modified
-            final Field logField = Reflections.class.getDeclaredField("log");
-            final Object staticFieldBase = unsafe.staticFieldBase(logField);
-            final long staticFieldOffset = unsafe.staticFieldOffset(logField);
-            unsafe.putObject(staticFieldBase, staticFieldOffset, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        final Logger logger = (Logger) LogManager.getLogger(Reflections.class);
+        logger.addFilter(new DenyAllFilter.Builder().build());
     }
 
 }
