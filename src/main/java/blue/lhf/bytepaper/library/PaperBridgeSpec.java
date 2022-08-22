@@ -108,7 +108,8 @@ public class PaperBridgeSpec extends ModifiableLibrary {
                 }, EventPriority.MONITOR,
                 ((listener, event) -> {
                     try {
-                        skript.runEvent(constructor.newInstance(bukkitClass.cast(event)));
+                        if (bukkitClass.isAssignableFrom(event.getClass()))
+                            skript.runEvent(constructor.newInstance(bukkitClass.cast(event)));
                     } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                         throw new RuntimeException(e);
                     }
