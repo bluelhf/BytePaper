@@ -27,7 +27,7 @@ Charset charset = StandardCharsets.UTF_8
 def ver = [
         major   : "1",
         minor   : "19",
-        patch   : null,
+        patch   : "2",
         revision: "0.1",
         tag     : "SNAPSHOT"
 ]
