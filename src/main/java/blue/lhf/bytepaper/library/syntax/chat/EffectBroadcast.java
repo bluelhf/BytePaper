@@ -16,13 +16,18 @@ import static mx.kenzie.foundation.WriteInstruction.*;
 
 @Documentation(
     name = "Broadcast",
-    description = "Sends the given message component to the entire server, that is to say, all players and console.",
+    description = "Broadcasts the given message to all players and the console.\n",
     examples = {
         """
-        on skript load:
-            trigger:
-                broadcast mini "<rainbow>BytePaper is up and running!</rainbow>"
+            on script load:
+                trigger:
+                    broadcast mini "<rainbow>Some rainbow text!</rainbow>"
+                    """,
         """
+            on script load:
+                trigger:
+                    broadcast message "Some plain text."
+            """
     }
 )
 public class EffectBroadcast extends Effect {
