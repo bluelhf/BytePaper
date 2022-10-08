@@ -9,7 +9,7 @@ name: Nightly Artifact
 
 on:
   push:
-    branches: [main]
+    branches: [trunk]
 
 jobs:
   build:
