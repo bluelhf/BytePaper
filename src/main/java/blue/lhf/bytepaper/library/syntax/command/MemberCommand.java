@@ -10,6 +10,7 @@ import org.byteskript.skript.compiler.structure.*;
 import org.byteskript.skript.lang.element.StandardElements;
 import org.objectweb.asm.Opcodes;
 
+import java.util.Arrays;
 import java.util.regex.Pattern;
 import java.util.regex.*;
 
@@ -88,6 +89,8 @@ public class MemberCommand extends TriggerHolder {
 
     @Override
     public Type[] parameters(Context context, Matcher match) {
+        Arrays.asList("__sender__", "__command__", "__label__", "__args__")
+                .forEach(v -> context.getVariable(v).parameter = true);
         return Type.of(CommandSender.class, Command.class, String.class, String[].class);
     }
 
