@@ -70,7 +70,7 @@ public class MemberCommand extends TriggerHolder {
                 load(new Type(Command.class), 1),
                 load(new Type(String.class), 2),
                 load(new Type(String[].class), 3),
-                invokeStatic(false, context.getType(), returnType(context, match), name, parameters(context, match)),
+                invokeStatic(false, context.getType(), returnType(context, match), name, parameters(context, match.matcher())),
                 push(true),
                 returnSmall()
             ).finish();
@@ -87,7 +87,7 @@ public class MemberCommand extends TriggerHolder {
     }
 
     @Override
-    public Type[] parameters(Context context, Match match) {
+    public Type[] parameters(Context context, Matcher match) {
         return Type.of(CommandSender.class, Command.class, String.class, String[].class);
     }
 

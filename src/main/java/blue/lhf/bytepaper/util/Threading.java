@@ -1,6 +1,6 @@
 package blue.lhf.bytepaper.util;
 
-import net.minecraft.server.MCUtil;
+import io.papermc.paper.util.MCUtil;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
