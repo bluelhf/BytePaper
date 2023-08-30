@@ -33,6 +33,6 @@ jobs:
         key: pr-verify-caches-${{ hashFiles('build.gradle') }}
 
     - name: Run Gradle tests
-      uses: gradle/gradle-build-action@2.8.0
+      uses: gradle/gradle-build-action@v2
       with:
         arguments: test
