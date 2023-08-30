@@ -1,8 +1,8 @@
 package blue.lhf.bytepaper.library.syntax.entity;
 
 import blue.lhf.bytepaper.util.Threading;
+import io.papermc.paper.util.MCUtil;
 import mx.kenzie.foundation.Type;
-import net.minecraft.server.MCUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
