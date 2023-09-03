@@ -5,10 +5,10 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
-import org.byteskript.skript.api.note.*;
+import org.byteskript.skript.api.note.Documentation;
+import org.byteskript.skript.api.note.EventValue;
 import org.byteskript.skript.api.syntax.EventHolder;
 
 @Documentation(

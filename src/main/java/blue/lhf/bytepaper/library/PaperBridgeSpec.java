@@ -22,7 +22,6 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
-import org.bukkit.event.Event;
 import org.bukkit.plugin.Plugin;
 import org.byteskript.skript.api.*;
 import org.byteskript.skript.api.syntax.EventHolder;
@@ -32,12 +31,8 @@ import org.reflections.Reflections;
 
 import java.lang.reflect.*;
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 public class PaperBridgeSpec extends ModifiableLibrary {
-
-    private static final HashMap<Class<? extends Event>, EventHolder> EVENTS = new HashMap<>();
 
     private final Skript skript;
     private final Plugin host;

@@ -4,7 +4,6 @@ import blue.lhf.bytepaper.util.EventMapsTo;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.inventory.ItemStack;
 import org.byteskript.skript.api.Event;
 import org.byteskript.skript.api.Library;
