@@ -31,10 +31,7 @@ public class BytePaperCommand extends Commander<CommandSender> implements Comman
             long start = System.nanoTime();
             Path path = (Path) input[0];
             Path relative = getHost().obtainScriptsFolder().relativize(path);
-            host.loadScriptTreeAsync(
-                path,
-                host.obtainCompiledFolder()
-            ).thenRun(() -> {
+            host.loadScriptTreeAsync(path, host.obtainCompiledFolder()).thenRun(() -> {
                 sender.sendMessage(host.getComponent("commands.bytepaper.load.success",
                     Map.of("time", "%.2f".formatted((System.nanoTime() - start) / 1E6),
                         "script", relative)));
