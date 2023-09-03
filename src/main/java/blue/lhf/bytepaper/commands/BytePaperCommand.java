@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Stream;
 
 @SuppressWarnings("CodeBlock2Expr")
 public class BytePaperCommand extends Commander<CommandSender> implements CommandExecutor, TabCompleter {
@@ -80,15 +81,16 @@ public class BytePaperCommand extends Commander<CommandSender> implements Comman
                 final IOException exc = new IOException("Failed to delete all files");
                 AtomicLong amount = new AtomicLong(0);
                 if (Exceptions.trying(sender, "cleaning the compiled scripts directory", (MayThrow.Runnable) () -> {
-                    Files.walk(host.obtainCompiledFolder()).filter(Files::isRegularFile)
-                        .forEach(path -> {
-                            try {
-                                Files.deleteIfExists(path);
-                                amount.getAndIncrement();
-                            } catch (IOException e) {
-                                exc.addSuppressed(e);
-                            }
+                    try (final Stream<Path> files = Files.walk(host.obtainCompiledFolder())) {
+                        files.filter(Files::isRegularFile).forEach(path -> {
+                                try {
+                                    Files.deleteIfExists(path);
+                                    amount.getAndIncrement();
+                                } catch (IOException e) {
+                                    exc.addSuppressed(e);
+                                }
                         });
+                    }
                 })) {
                     if (exc.getSuppressed().length > 0) {
                         Exceptions.throwing(sender, "cleaning the compiled scripts directory", exc);
