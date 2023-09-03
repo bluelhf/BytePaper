@@ -22,7 +22,6 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static net.kyori.adventure.text.Component.text;
 
 public final class BytePaper extends JavaPlugin implements IScriptLoader {
-    private final InfoWrapper wrappedLogger = new InfoWrapper(super.getLogger());
 
     private final Path scriptsFolder = getDataFolder().toPath().resolve("scripts");
     private final Path compiledFolder = getDataFolder().toPath().resolve("compiled_scripts");
@@ -109,11 +108,6 @@ public final class BytePaper extends JavaPlugin implements IScriptLoader {
         }
 
         return UI.miniMessage().deserialize(getRaw(langPath), resolvers);
-    }
-
-    @Override
-    public Logger getLogger() {
-        return wrappedLogger;
     }
 
     public void unregister() {
