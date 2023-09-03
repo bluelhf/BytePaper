@@ -69,16 +69,10 @@ public class CommandRegistrar {
             public boolean execute(@NotNull CommandSender sender,
                                    @NotNull String commandLabel,
                                    @NotNull String[] args) {
-                return Exceptions.trying(Bukkit.getConsoleSender(), "running a BytePaper command",
-                    (MayThrow.Runnable) () -> host.runScript(() -> {
-                        try {
-                            method.invoke(null, sender, this, commandLabel, args);
-                        } catch (IllegalAccessException e) {
-                            throw new AssertionError("Cannot happen");
-                        } catch (InvocationTargetException e) {
-                            e.printStackTrace();
-                        }
-                    }));
+                host.runScript(() -> Exceptions.trying(Bukkit.getConsoleSender(), "running a BytePaper command",
+                    (MayThrow.Runnable) () -> method.invoke(null, sender, this, commandLabel, args)));
+
+                return true;
             }
         });
 
