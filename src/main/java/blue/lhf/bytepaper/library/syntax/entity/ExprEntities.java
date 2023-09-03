@@ -37,7 +37,7 @@ public class ExprEntities extends SimpleExpression {
         if (!MCUtil.isMainThread())
             return Threading.forceMain(() -> getEntities(type));
 
-        return Bukkit.getWorlds().stream().sequential()
+        return Bukkit.getWorlds().stream()
                 .flatMap(w -> w.getEntitiesByClass(typeClass).stream())
                 .toArray(Entity[]::new);
     }
