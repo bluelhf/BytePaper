@@ -3,10 +3,11 @@ package blue.lhf.bytepaper.util;
 import mx.kenzie.foundation.Type;
 import mx.kenzie.jupiter.stream.OutputStreamController;
 import org.byteskript.skript.api.Library;
-import org.byteskript.skript.compiler.*;
+import org.byteskript.skript.compiler.DebugSkriptCompiler;
+import org.byteskript.skript.compiler.FileContext;
 
-import java.io.*;
-import java.util.Arrays;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.util.logging.Logger;
 
 public class Debugging {
@@ -14,7 +15,7 @@ public class Debugging {
     }
 
     public static class Stream extends OutputStream {
-        protected final StringBuilder buffer = new StringBuilder(32);
+        protected final ByteArrayOutputStream buffer = new ByteArrayOutputStream(32);
         protected final Logger logger;
 
         public Stream(Logger logger) {
@@ -33,17 +34,13 @@ public class Debugging {
                 return;
             }
 
-            // for some reason DebugSkriptCompiler
-            // writes a null byte between every byte
-            if (b > 0) {
-                buffer.append((char) b);
-            }
+            buffer.write(b);
         }
 
         @Override
         public void flush() {
-            Arrays.stream(buffer.toString().split("\n")).forEachOrdered(logger::fine);
-            buffer.setLength(0);
+            logger.info(buffer.toString());
+            buffer.reset();
         }
     }
 
