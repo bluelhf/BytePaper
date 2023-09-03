@@ -7,7 +7,6 @@ import mx.kenzie.foundation.language.PostCompileClass;
 import mx.kenzie.mirror.Mirror;
 import org.byteskript.skript.error.*;
 import org.byteskript.skript.runtime.*;
-import org.byteskript.skript.runtime.internal.*;
 
 import java.io.*;
 import java.nio.file.*;
@@ -35,12 +34,6 @@ public interface IScriptLoader {
     default void unloadScript(Script script) {
         for (var entry : CommandRegistrar.findCommands(script.classes()).entrySet()) {
             getRegistrar().unregister(entry.getValue());
-        }
-
-        if (script.mainClass().getClassLoader() instanceof ScriptClassLoader scl) {
-            //noinspection unchecked yes yes i know this is dangerous i had to do it
-            final var list = ((WeakList<ScriptClassLoader>) Mirror.of(getSkript()).field("loaders").get());
-            list.removeIf(ref -> ref.refersTo(scl));
         }
 
         getSkript().unloadScript(script);
