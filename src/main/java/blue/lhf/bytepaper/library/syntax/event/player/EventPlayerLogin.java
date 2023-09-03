@@ -14,12 +14,12 @@ import java.net.InetAddress;
 
 @Documentation(
         name = "Player Login",
-        description = "Run when a player login to the server.",
+        description = "Run when a player logs in to the server.",
         examples = {
                 """
                 on player login:
                     trigger:
-                        send "The player is logging in the server!" to event-player"
+                        send "You're now logging in!" to event-player
                 """
         }
 )

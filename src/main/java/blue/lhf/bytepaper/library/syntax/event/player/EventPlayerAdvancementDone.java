@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player advancement done:
                     trigger:
-                        send "You've just completed an advancement!" to event-player"
+                        send "You've just completed an advancement!" to event-player
                 """
         }
 )

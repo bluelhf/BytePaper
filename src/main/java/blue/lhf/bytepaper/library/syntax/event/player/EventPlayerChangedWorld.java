@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player changed world:
                     trigger:
-                        send "You've changed your world" to event-player"
+                        send "You've travelled to another realm!" to event-player
                 """
         }
 )

@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player swap hand items:
                     trigger:
-                        send "You swapped hand items!" to event-player"
+                        send "You swapped hand items!" to event-player
                 """
         }
 )

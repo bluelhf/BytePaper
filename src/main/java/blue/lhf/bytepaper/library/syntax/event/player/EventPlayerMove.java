@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player move:
                     trigger:
-                        send "You moved!" to event-player"
+                        send "You moved!" to event-player
                 """
         }
 )

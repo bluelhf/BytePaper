@@ -18,7 +18,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player item mend:
                     trigger:
-                        send "You mended an item!" to event-player"
+                        send "You mended an item!" to event-player
                 """
         }
 )

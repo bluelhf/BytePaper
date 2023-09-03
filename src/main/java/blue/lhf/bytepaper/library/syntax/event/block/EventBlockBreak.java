@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
             """
             on block break:
                 trigger:
-                    send "You've break a block!" to event-player"
+                    send "You've broken a block!" to event-player
             """
     }
 )

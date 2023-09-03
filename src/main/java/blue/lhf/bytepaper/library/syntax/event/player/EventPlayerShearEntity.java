@@ -19,7 +19,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player shear entity:
                     trigger:
-                        send "You sheared an entity!" to event-player"
+                        send "You sheared an entity!" to event-player
                 """
         }
 )

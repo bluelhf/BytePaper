@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player bed leave:
                     trigger:
-                        send "You've left a bed!" to event-player"
+                        send "You've left a bed!" to event-player
                 """
         }
 )

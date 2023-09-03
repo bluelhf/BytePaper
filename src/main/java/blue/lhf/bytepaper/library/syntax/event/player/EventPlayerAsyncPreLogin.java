@@ -19,7 +19,7 @@ import java.util.UUID;
                 """
                 on player pre login:
                     trigger:
-                        send "The player has initiated a connection with the server!" to event-player"
+                        send "You're about to log in!" to event-player
                 """
         }
 )

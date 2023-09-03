@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player respawn:
                     trigger:
-                        send "Welcome back!" to event-player"
+                        send "Welcome back!" to event-player
                 """
         }
 )

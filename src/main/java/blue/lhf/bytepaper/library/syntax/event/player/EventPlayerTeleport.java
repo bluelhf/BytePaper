@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player teleport:
                     trigger:
-                        send "You teleported!" to event-player"
+                        send "You teleported!" to event-player
                 """
         }
 )

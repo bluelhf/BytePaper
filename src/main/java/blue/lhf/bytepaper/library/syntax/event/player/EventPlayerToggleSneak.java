@@ -16,7 +16,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player toggle sneak:
                     trigger:
-                        send "You toggled sneak!" to event-player"
+                        send "You toggled sneak!" to event-player
                 """
         }
 )

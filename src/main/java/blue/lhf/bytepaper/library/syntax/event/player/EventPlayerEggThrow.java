@@ -18,7 +18,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player egg throw:
                     trigger:
-                        send "You thrown an egg!" to event-player"
+                        send "You threw an egg!" to event-player
                 """
         }
 )

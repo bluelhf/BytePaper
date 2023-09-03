@@ -16,7 +16,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player toggle flight:
                     trigger:
-                        send "You toggled flight!" to event-player"
+                        send "You toggled flight!" to event-player
                 """
         }
 )

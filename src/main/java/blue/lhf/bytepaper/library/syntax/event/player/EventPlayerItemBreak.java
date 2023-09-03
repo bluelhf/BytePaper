@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player item break:
                     trigger:
-                        send "You broke an item!" to event-player"
+                        send "You broke an item!" to event-player
                 """
         }
 )

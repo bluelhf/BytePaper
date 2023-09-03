@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player gamemode change:
                     trigger:
-                        send "You've changed your gamemode!" to event-player"
+                        send "You've changed your gamemode!" to event-player
                 """
         }
 )

@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player edit book:
                     trigger:
-                        send "You edited a book!" to event-player"
+                        send "You edited a book!" to event-player
                 """
         }
 )

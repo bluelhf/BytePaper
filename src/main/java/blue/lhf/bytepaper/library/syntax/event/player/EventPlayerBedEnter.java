@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player bed enter:
                     trigger:
-                        send "You've entered a bed!" to event-player"
+                        send "You've entered a bed!" to event-player
                 """
         }
 )

@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player changed main hand:
                     trigger:
-                        send "You've changed your main hand in the client settings!" to event-player"
+                        send "You've changed your main hand in the client settings!" to event-player
                 """
         }
 )

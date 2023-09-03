@@ -18,7 +18,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player fishing:
                     trigger:
-                        send "You've just fished!" to event-player"
+                        send "You've just fished!" to event-player
                 """
         }
 )

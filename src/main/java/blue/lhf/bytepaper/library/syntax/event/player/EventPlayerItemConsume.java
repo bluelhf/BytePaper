@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player item consume:
                     trigger:
-                        send "You consumed an item!" to event-player"
+                        send "You consumed an item!" to event-player
                 """
         }
 )

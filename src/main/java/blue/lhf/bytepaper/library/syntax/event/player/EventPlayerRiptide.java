@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player riptide:
                     trigger:
-                        send "You are riptiding!" to event-player"
+                        send "You are riptiding!" to event-player
                 """
         }
 )

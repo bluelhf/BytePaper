@@ -22,7 +22,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player interact:
                     trigger:
-                        send "You've interacted with the world!" to event-player"
+                        send "You've interacted with the world!" to event-player
                 """
         }
 )

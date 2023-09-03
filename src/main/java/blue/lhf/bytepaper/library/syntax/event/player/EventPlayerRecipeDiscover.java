@@ -19,7 +19,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player recipe discover:
                     trigger:
-                        send "You discovered a recipe!" to event-player"
+                        send "You discovered a recipe!" to event-player
                 """
         }
 )

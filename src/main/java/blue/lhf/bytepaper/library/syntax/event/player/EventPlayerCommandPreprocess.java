@@ -16,7 +16,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player command preprocess:
                     trigger:
-                        send "You are typing a command!" to event-player"
+                        send "You are typing a command!" to event-player
                 """
         }
 )

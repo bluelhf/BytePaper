@@ -19,7 +19,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player statistic increment:
                     trigger:
-                        send "You incremented a statistic!" to event-player"
+                        send "You incremented a statistic!" to event-player
                 """
         }
 )

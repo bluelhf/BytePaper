@@ -18,7 +18,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player take lectern book:
                     trigger:
-                        send "You took a book from a lectern!" to event-player"
+                        send "You took a book from a lectern!" to event-player
                 """
         }
 )

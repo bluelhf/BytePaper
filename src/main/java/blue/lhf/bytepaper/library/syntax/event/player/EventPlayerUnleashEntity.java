@@ -19,7 +19,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player unleash entity:
                     trigger:
-                        send "You toggled sneak!" to event-player"
+                        send "You unleashed an entity!" to event-player
                 """
         }
 )

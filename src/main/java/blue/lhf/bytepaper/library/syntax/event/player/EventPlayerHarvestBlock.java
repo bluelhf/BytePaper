@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player harvest block:
                     trigger:
-                        send "You harvested a block!" to event-player"
+                        send "You harvested something!" to event-player
                 """
         }
 )

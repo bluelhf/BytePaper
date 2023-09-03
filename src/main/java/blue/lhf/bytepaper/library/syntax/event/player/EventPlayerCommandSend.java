@@ -18,7 +18,7 @@ import java.util.Collection;
                 """
                 on player command send:
                     trigger:
-                        send "You've receive the list of available server commands!" to event-player"
+                        send "You've received the list of available server commands!" to event-player
                 """
         }
 )

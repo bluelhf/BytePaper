@@ -18,7 +18,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player bucket entity:
                     trigger:
-                        send "You've caught an entity in your bucket!" to event-player"
+                        send "You've caught an entity in your bucket!" to event-player
                 """
         }
 )

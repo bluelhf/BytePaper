@@ -16,7 +16,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player resource pack status:
                     trigger:
-                        send "You've just received a resource pack request!" to event-player"
+                        send "You've just received a resource pack request!" to event-player
                 """
         }
 )

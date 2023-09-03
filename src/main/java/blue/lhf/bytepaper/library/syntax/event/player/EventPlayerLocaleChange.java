@@ -18,7 +18,7 @@ import java.util.Locale;
                 """
                 on player locale change:
                     trigger:
-                        send "You've changed your locale" to event-player"
+                        send "You've changed your locale" to event-player
                 """
         }
 )

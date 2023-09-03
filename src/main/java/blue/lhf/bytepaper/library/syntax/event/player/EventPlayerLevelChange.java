@@ -16,7 +16,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player level change:
                     trigger:
-                        send "You leveled up!" to event-player"
+                        send "You leveled up!" to event-player
                 """
         }
 )

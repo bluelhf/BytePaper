@@ -16,7 +16,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player item held:
                     trigger:
-                        send "You held an item!" to event-player"
+                        send "You held an item!" to event-player
                 """
         }
 )

@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player experience change:
                     trigger:
-                        send "Your experience has changed!" to event-player"
+                        send "Your experience has changed!" to event-player
                 """
         }
 )

@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player item damage:
                     trigger:
-                        send "You damaged an item!" to event-player"
+                        send "You damaged an item!" to event-player
                 """
         }
 )

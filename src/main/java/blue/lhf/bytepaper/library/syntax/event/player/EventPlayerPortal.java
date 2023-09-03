@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player portal enter:
                     trigger:
-                        send "You entered a portal!" to event-player"
+                        send "You entered a portal!" to event-player
                 """
         }
 )

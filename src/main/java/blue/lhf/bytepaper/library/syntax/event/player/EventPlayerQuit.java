@@ -12,12 +12,12 @@ import org.byteskript.skript.api.syntax.EventHolder;
 
 @Documentation(
         name = "Player Quit",
-        description = "Run when a player quit the server.",
+        description = "Run when a player quits the server.",
         examples = {
                 """
                 on player quit:
                     trigger:
-                        send "You left the server!" to event-player"
+                        send "You left the server!" to event-player
                 """
         }
 )

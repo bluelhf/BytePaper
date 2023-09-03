@@ -21,7 +21,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player bucket fill:
                     trigger:
-                        send "You've filled your bucket!" to event-player"
+                        send "You've filled your bucket!" to event-player
                 """
         }
 )

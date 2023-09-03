@@ -19,7 +19,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player interact at entity:
                     trigger:
-                        send "You interacted with an entity!" to event-player"
+                        send "You interacted with an entity!" to event-player
                 """
         }
 )

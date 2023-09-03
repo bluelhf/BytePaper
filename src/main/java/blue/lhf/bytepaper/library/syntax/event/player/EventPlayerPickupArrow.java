@@ -18,7 +18,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player pickup arrow:
                     trigger:
-                        send "You picked up an arrow!" to event-player"
+                        send "You picked up an arrow!" to event-player
                 """
         }
 )

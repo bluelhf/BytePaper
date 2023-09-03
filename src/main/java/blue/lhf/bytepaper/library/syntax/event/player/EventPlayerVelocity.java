@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player velocity change:
                     trigger:
-                        send "Your velocity has changed!" to event-player"
+                        send "Your velocity has changed!" to event-player
                 """
         }
 )

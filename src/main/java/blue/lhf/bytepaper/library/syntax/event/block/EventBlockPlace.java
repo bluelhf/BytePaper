@@ -18,7 +18,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on block place:
                     trigger:
-                        send "You've placed a block!" to event-player"
+                        send "You've placed a block!" to event-player
                 """
         }
 )

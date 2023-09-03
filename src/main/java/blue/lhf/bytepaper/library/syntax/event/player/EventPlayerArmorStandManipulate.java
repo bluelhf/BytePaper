@@ -19,7 +19,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on armor stand manipulate:
                     trigger:
-                        send "You've manipulated an armor stand!" to event-player"
+                        send "You've manipulated an armor stand!" to event-player
                 """
         }
 )

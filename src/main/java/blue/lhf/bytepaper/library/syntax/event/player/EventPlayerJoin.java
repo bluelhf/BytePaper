@@ -17,7 +17,7 @@ import org.byteskript.skript.api.syntax.EventHolder;
                 """
                 on player join:
                     trigger:
-                        send "You joined the server!" to event-player"
+                        send "You joined the server!" to event-player
                 """
         }
 )
