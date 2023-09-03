@@ -18,7 +18,7 @@ Using BytePaper is simple!
     ```haskell
    on script load:
      trigger:
-       send raw "Hello, world!" to console
+       broadcast mini "<rainbow>Hello, world!</rainbow>"
     ```
 6. Join your server and run `/bp load <your file's name>`
 7. Look at your server console, and notice the message you wrote!
