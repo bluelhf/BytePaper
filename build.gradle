@@ -19,7 +19,7 @@ repositories {
 }
 
 group = 'blue.lhf'
-version = '0.4.0'
+version = '0.4.1'
 
 int javaVersion = 17
 String author = "bluelhf"
@@ -27,7 +27,7 @@ Charset charset = StandardCharsets.UTF_8
 def ver = [
         major   : "1",
         minor   : "20",
-        patch   : "1",
+        patch   : "2",
         revision: "0.1",
         tag     : "SNAPSHOT"
 ]
