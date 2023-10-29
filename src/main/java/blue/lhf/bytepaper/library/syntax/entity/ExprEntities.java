@@ -10,12 +10,13 @@ import org.byteskript.skript.api.Library;
 import org.byteskript.skript.api.syntax.SimpleExpression;
 import org.byteskript.skript.lang.element.StandardElements;
 import org.byteskript.skript.lang.handler.StandardHandlers;
+import org.byteskript.skript.runtime.Skript;
 
 public class ExprEntities extends SimpleExpression {
     public ExprEntities(Library library) {
         // The pattern order is important, because types compile to <.+>, which breaks optionals that follow
-        super(library, StandardElements.EXPRESSION, "all %EntityType%s", "all %EntityType%");
-        setHandler(StandardHandlers.GET, findMethod(getClass(), "getEntities", EntityType.class));
+        super(library, StandardElements.EXPRESSION, "all %Object%s", "all %Object%");
+        setHandler(StandardHandlers.GET, findMethod(getClass(), "getEntities", Object.class));
     }
 
     @Override
@@ -24,7 +25,9 @@ public class ExprEntities extends SimpleExpression {
     }
 
     @SuppressWarnings("unused")
-    public static Entity[] getEntities(EntityType type) {
+    public static Entity[] getEntities(Object type0) {
+        if (type0 == null) return new Entity[0];
+        final EntityType type = Skript.convert(type0, org.bukkit.entity.EntityType.class);
         Class<? extends Entity> typeClass = type.getEntityClass();
 
         /*
