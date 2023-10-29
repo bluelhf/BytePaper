@@ -68,7 +68,7 @@ public class PaperBridgeSpec extends ModifiableLibrary {
 
         Exceptions.trying(Bukkit.getConsoleSender(), "registering properties",
             (MayThrow.Runnable) () -> PropertyRegistrar.register(this,
-                PlayerProperties.class, BlockProperties.class, LocationProperties.class));
+                PlayerProperties.class, BlockProperties.class, LocationProperties.class, EntityProperties.class));
 
         hookBukkitEvents();
 

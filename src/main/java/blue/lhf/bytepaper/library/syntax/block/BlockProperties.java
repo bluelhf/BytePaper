@@ -9,7 +9,7 @@ import org.bukkit.block.data.BlockData;
 import org.byteskript.skript.lang.handler.StandardHandlers;
 
 @SuppressWarnings("unused")
-@PropertyHolder(owner = Block.class, implicit = true)
+@PropertyHolder(owner = Block.class)
 public class BlockProperties {
     private BlockProperties() {}
 

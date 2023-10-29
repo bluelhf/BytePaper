@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.byteskript.skript.lang.handler.StandardHandlers;
 
 @SuppressWarnings("unused")
-@PropertyHolder(owner = Player.class, implicit = true)
+@PropertyHolder(owner = Player.class)
 public class PlayerProperties {
     private PlayerProperties() {
     }
