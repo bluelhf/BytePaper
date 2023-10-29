@@ -49,11 +49,13 @@ public class PaperBridgeSpec extends ModifiableLibrary {
         registerConverter(UUID.class, OfflinePlayer.class, Bukkit::getOfflinePlayer);
         registerConverter(OfflinePlayer.class, Player.class, OfflinePlayer::getPlayer);
         registerConverter(String.class, Player.class, Bukkit::getPlayerExact);
+        registerConverter(String.class, EntityType.class, LiteralEntityType::fromString);
         registerConverter(Player.class, String.class, Player::getName);
         registerConverter(Entity[].class, Audience.class, Audience::audience);
         registerConverter(Audience[].class, Audience.class, Audience::audience);
         registerConverter(Object[].class, String.class, Arrays::deepToString);
         registerConverter(Block.class, Location.class, Block::getLocation);
+        registerConverter(Entity.class, Location.class, Entity::getLocation);
         registerConverter(Object.class, Component.class, o -> Component.text(o.toString()));
 
         registerSyntax(CompileState.STATEMENT,
