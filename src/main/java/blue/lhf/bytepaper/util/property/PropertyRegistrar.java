@@ -47,6 +47,7 @@ public class PropertyRegistrar {
                 }
             }
 
+            if (!holder.implicit()) continue;
             for (Method method : owner.getMethods()) {
                 StandardHandlers mode = null;
                 for (StandardHandlers maybe : StandardHandlers.values()) {
