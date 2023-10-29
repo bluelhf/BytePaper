@@ -3,15 +3,26 @@ package blue.lhf.bytepaper.library.syntax.entity;
 import mx.kenzie.foundation.*;
 import org.bukkit.entity.EntityType;
 import org.byteskript.skript.api.Library;
+import org.byteskript.skript.api.note.Documentation;
 import org.byteskript.skript.api.syntax.Literal;
 import org.byteskript.skript.compiler.*;
 import org.byteskript.skript.lang.element.StandardElements;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static mx.kenzie.foundation.WriteInstruction.getStaticField;
 
+@Documentation(
+    name = "Entity Type",
+    description = "Any minecraft entity type, such as 'zombie' or 'minecraft:strider'.",
+    examples = {
+        """
+        command /list:
+          trigger:
+            
+        """
+    }
+)
 public class LiteralEntityType extends Literal<EntityType> {
 
     private static final Map<String, EntityType> parseMap = new HashMap<>();
@@ -26,11 +37,7 @@ public class LiteralEntityType extends Literal<EntityType> {
     }
 
     public LiteralEntityType(Library library) {
-        super(library, StandardElements.EXPRESSION, "(" + parseMap.keySet()
-                .stream()
-                .map(java.util.regex.Pattern::quote)
-                .map(s -> s.replace("\\", "\\\\"))
-                .collect(Collectors.joining("|")) + ")");
+        super(library, StandardElements.EXPRESSION, "any minecraft entity id");
     }
 
     @Override
@@ -51,6 +58,10 @@ public class LiteralEntityType extends Literal<EntityType> {
 
     @Override
     public EntityType parse(String s) {
+        return parseMap.get(s);
+    }
+
+    public static EntityType fromString(final String s) {
         return parseMap.get(s);
     }
 }
