@@ -1,8 +1,8 @@
 package blue.lhf.bytepaper.library.syntax.block;
 
-import blue.lhf.bytepaper.library.syntax.SyntaxUtils;
 import mx.kenzie.foundation.MethodBuilder;
 import mx.kenzie.foundation.Type;
+import mx.kenzie.foundation.WriteInstruction;
 import org.bukkit.Bukkit;
 import org.bukkit.block.data.BlockData;
 import org.byteskript.skript.api.Library;
@@ -34,7 +34,7 @@ public class LiteralBlockData extends Literal<BlockData> {
         assert string.length() > 1;
 
         MethodBuilder method = context.getMethod();
-        method.writeCode(SyntaxUtils.convert(String.class));
+        method.writeCode(WriteInstruction.loadConstant(string));
         method.writeCode(invokeStatic(findMethod(Bukkit.class, "createBlockData", String.class)));
     }
 
