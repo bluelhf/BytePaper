@@ -1,5 +1,6 @@
 package blue.lhf.bytepaper;
 
+import blue.lhf.bytepaper.api.BytePaperLibrary;
 import blue.lhf.bytepaper.commands.BytePaperCommand;
 import blue.lhf.bytepaper.library.PaperBridgeSpec;
 import blue.lhf.bytepaper.library.syntax.command.CommandRegistrar;
@@ -9,6 +10,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.byteskript.skript.compiler.SkriptCompiler;
 import org.byteskript.skript.runtime.*;
@@ -63,6 +65,7 @@ public final class BytePaper extends JavaPlugin implements IScriptLoader {
         spec.registerAll();
         skript.registerLibrary(spec);
 
+        registerAddons(skript);
         BytePaperCommand commander = new BytePaperCommand(this);
 
         var command = getCommand("bytepaper");
@@ -91,6 +94,15 @@ public final class BytePaper extends JavaPlugin implements IScriptLoader {
         })) {
             this.onDisable();
         }
+    }
+
+    private void registerAddons(final Skript skript) {
+        Bukkit.getServicesManager().getRegistrations(BytePaperLibrary.class)
+                .stream().map(RegisteredServiceProvider::getProvider)
+                .forEach((library) -> {
+                    library.initialise(skript);
+                    skript.registerLibrary(library);
+                });
     }
 
     private String getRaw(String langPath) {
