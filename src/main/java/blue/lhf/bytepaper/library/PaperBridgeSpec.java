@@ -64,7 +64,8 @@ public class PaperBridgeSpec extends ModifiableLibrary {
             new LiteralBlockData(this), new LiteralCardinal(this),
             new LiteralEgocentric(this), new ExprBlockAt(this),
             new ExprWorld(this), new ExprLocation(this),
-            new ExprArguments(this), new ExprExecutor(this));
+            new ExprArguments(this), new ExprExecutor(this),
+            new ExprBlocksWithin(this));
 
         Exceptions.trying(Bukkit.getConsoleSender(), "registering properties",
             (MayThrow.Runnable) () -> PropertyRegistrar.register(this,
